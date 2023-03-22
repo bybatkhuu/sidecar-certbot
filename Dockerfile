@@ -51,11 +51,9 @@ RUN rm -vrf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 	mkdir -vp /etc/letsencrypt/live /var/lib/letsencrypt /var/log/letsencrypt /var/www/.well-known/acme-challenge && \
 	chown -R www-data:${GROUP} /var/www/.well-known && \
 	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod 775 {} + && \
-	find /var/www/.well-known /var/log/letsencrypt -type f -exec chmod 664 {} + && \
 	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod +s {} + && \
 	chown -R 1000:${GROUP} /etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt && \
 	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod 770 {} + && \
-	find /etc/letsencrypt /var/lib/letsencrypt -type f -exec chmod 660 {} + && \
 	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod ug+s {} + && \
 	rm -vrf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 
@@ -63,8 +61,7 @@ ENV	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=en_US.UTF-8
 
-COPY ./scripts/docker/*.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/*.sh
+COPY --chown=root:root --chmod=ug+x ./scripts/docker/*.sh /usr/local/bin/
 
 VOLUME [ "/etc/letsencrypt" ]
 
