@@ -21,7 +21,7 @@ main()
 	fi
 
 	if [ ! -d "/var/www/.well-known/acme-challenge" ]; then
-		mkdir -vp /var/www/.well-known/acme-challenge || exit 2
+		mkdir -pv /var/www/.well-known/acme-challenge || exit 2
 	fi
 
 	echo -e "INFO: Setting permissions..."
@@ -43,102 +43,101 @@ main()
 	echo -e "SUCCESS: Done.\n"
 
 	## Default values:
-	_CERTBOT_NEW="--standalone"
-	_CERTBOT_RENEW="--webroot -w /var/www"
-	_CERTBOT_STAGING="--staging"
-	_DISABLE_RENEW=false
+	_certbot_new="--standalone"
+	_certbot_renew="--webroot -w /var/www"
+	_certbot_staging="--staging"
+	_disable_renew=false
 
-	_DNS_PARAM=""
-	_PIP_DNS=""
+	_pip_dns=""
 
 	## Parsing input:
-	for _INPUT in "${@:-}"; do
-		case ${_INPUT} in
+	for _input in "${@:-}"; do
+		case ${_input} in
 			"")
 				shift;;
 
 			-s=* | --server=*)
-				_SERVER="${_INPUT#*=}"
-				if [ "${_SERVER}" = "production" ]; then
-					_CERTBOT_STAGING=""
-				elif [ "${_SERVER}" = "staging" ]; then
-					_CERTBOT_STAGING="--staging"
+				_server="${_input#*=}"
+				if [ "${_server}" = "production" ]; then
+					_certbot_staging=""
+				elif [ "${_server}" = "staging" ]; then
+					_certbot_staging="--staging"
 				else
-					echo "ERROR: Invalid server '${_SERVER}'."
+					echo "ERROR: Invalid server '${_server}'."
 					exit 1
 				fi
 				shift;;
 
 			-n=* | --new=*)
-				_NEW="${_INPUT#*=}"
-				if [ "${_NEW}" = "standalone" ]; then
-					_CERTBOT_NEW="--standalone"
-				elif [ "${_NEW}" = "webroot" ]; then
-					_CERTBOT_NEW="--webroot -w /var/www"
+				_new="${_input#*=}"
+				if [ "${_new}" = "standalone" ]; then
+					_certbot_new="--standalone"
+				elif [ "${_new}" = "webroot" ]; then
+					_certbot_new="--webroot -w /var/www"
 				fi
 				shift;;
 
 			-r=* | --renew=*)
-				_RENEW="${_INPUT#*=}"
-				if [ "${_RENEW}" = "standalone" ]; then
-					_CERTBOT_RENEW="--standalone"
-				elif [ "${_RENEW}" = "webroot" ]; then
-					_CERTBOT_RENEW="--webroot -w /var/www"
+				_renew="${_input#*=}"
+				if [ "${_renew}" = "standalone" ]; then
+					_certbot_renew="--standalone"
+				elif [ "${_renew}" = "webroot" ]; then
+					_certbot_renew="--webroot -w /var/www"
 				fi
 				shift;;
 
 			-d=* | --dns=*)
-				_DNS="${_INPUT#*=}"
-				if [ "${_DNS}" = "route53" ]; then
+				_dns="${_input#*=}"
+				if [ "${_dns}" = "route53" ]; then
 					if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
 						if [ ! -f "/root/.aws/config" ]; then
 							echo "ERROR: '/root/.aws/config' file is not found."
 							exit 1
 						fi
 					fi
-					_CERTBOT_NEW="--dns-route53"
-					_CERTBOT_RENEW="--dns-route53"
+					_certbot_new="--dns-route53"
+					_certbot_renew="--dns-route53"
 
-				elif [ "${_DNS}" = "godaddy" ]; then
-					if [ ! -f "/root/.secrets/certbot/${_DNS}.ini" ]; then
-						echo "ERROR: '/root/.secrets/certbot/${_DNS}.ini' file is not found."
+				elif [ "${_dns}" = "godaddy" ]; then
+					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
+						echo "ERROR: '/root/.secrets/certbot/${_dns}.ini' file is not found."
 						exit 1
 					fi
-					_CERTBOT_NEW="--authenticator dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.ini"
-					_CERTBOT_RENEW="--authenticator dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.ini"
+					_certbot_new="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
+					_certbot_renew="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
 
-				elif [ "${_DNS}" = "google" ]; then
-					if [ ! -f "/root/.secrets/certbot/${_DNS}.json" ]; then
-						echo "ERROR: '/root/.secrets/certbot/${_DNS}.json' file is not found."
+				elif [ "${_dns}" = "google" ]; then
+					if [ ! -f "/root/.secrets/certbot/${_dns}.json" ]; then
+						echo "ERROR: '/root/.secrets/certbot/${_dns}.json' file is not found."
 						exit 1
 					fi
-					_CERTBOT_NEW="--dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.json"
-					_CERTBOT_RENEW="--dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.json"
+					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json"
+					_certbot_renew="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json"
 
-				elif [ "${_DNS}" = "cloudflare" ] || [ "${_DNS}" = "digitalocean" ]; then
-					if [ ! -f "/root/.secrets/certbot/${_DNS}.ini" ]; then
-						echo "ERROR: '/root/.secrets/certbot/${_DNS}.ini' file is not found."
+				elif [ "${_dns}" = "cloudflare" ] || [ "${_dns}" = "digitalocean" ]; then
+					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
+						echo "ERROR: '/root/.secrets/certbot/${_dns}.ini' file is not found."
 						exit 1
 					fi
-					_CERTBOT_NEW="--dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.ini"
-					_CERTBOT_RENEW="--dns-${_DNS} --dns-${_DNS}-credentials /root/.secrets/certbot/${_DNS}.ini"
+					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
+					_certbot_renew="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
 
 				else
-					echo "ERROR: Unsupported DNS plugin -> ${_DNS}"
+					echo "ERROR: Unsupported DNS plugin -> ${_dns}"
 					exit 1
 				fi
 
-				_PIP_DNS="certbot-dns-${_DNS}"
-				if [ "${_DNS}" != "cloudflare" ]; then
-					echo "INFO: Installing certbot DNS plugin -> ${_DNS}..."
-					pip install --timeout 60 --no-cache-dir ${_PIP_DNS} || exit 2
+				_pip_dns="certbot-dns-${_dns}"
+				if [ "${_dns}" != "cloudflare" ]; then
+					echo "INFO: Installing certbot DNS plugin -> ${_dns}..."
+					pip install --timeout 60 --no-cache-dir ${_pip_dns} || exit 2
 					pip cache purge || exit 2
 					echo -e "SUCCESS: Done.\n"
 				fi
 				shift;;
 
 			-D | --disable-renew)
-				_DISABLE_RENEW=true
+				_disable_renew=true
 				shift;;
 
 			-b | --bash | bash | /bin/bash)
@@ -159,15 +158,15 @@ main()
 	done
 
 	echo "INFO: Obtaining certificates..."
-	certbot certonly -n --agree-tos --keep --max-log-backups 50 ${_CERTBOT_STAGING} ${_CERTBOT_NEW} -m ${CERTBOT_EMAIL} -d ${CERTBOT_DOMAINS} || exit 2
+	certbot certonly -n --agree-tos --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m ${CERTBOT_EMAIL} -d ${CERTBOT_DOMAINS} || exit 2
 	echo -e "SUCCESS: Done.\n"
 
 	/usr/local/bin/certbot-permissions.sh
 
-	if [ ${_DISABLE_RENEW} != true ]; then
+	if [ ${_disable_renew} != true ]; then
 		echo "INFO: Adding cron jobs..."
-		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --upgrade certbot ${_PIP_DNS} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
-		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 50 ${_CERTBOT_STAGING} ${_CERTBOT_RENEW} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
+		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
+		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
 
 		cron || exit 2
 		echo -e "SUCCESS: Done.\n"

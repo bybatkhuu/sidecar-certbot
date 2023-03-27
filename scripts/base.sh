@@ -9,6 +9,7 @@ _GREEN=""
 _YELLOW=""
 _RED=""
 _NC=""
+
 if [[ "${TERM:-}" == *"xterm"* ]]; then
 	_BLUE="[34m"
 	_GREEN="[32m"
@@ -16,6 +17,7 @@ if [[ "${TERM:-}" == *"xterm"* ]]; then
 	_RED="[31m"
 	_NC="[0m"
 fi
+
 echoError()
 {
 	_date=$(date "${_DATE_FORMAT}")

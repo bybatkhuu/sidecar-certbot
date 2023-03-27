@@ -118,10 +118,10 @@ main()
 {
 	## --- Menu arguments --- ##
 	if [ ! -z "${1:-}" ]; then
-		for _INPUT in "${@:-}"; do
-			case ${_INPUT} in
+		for _input in "${@:-}"; do
+			case ${_input} in
 				-p=* | --platform=*)
-					BUILD_IMG_PLATFORM="${_INPUT#*=}"
+					BUILD_IMG_PLATFORM="${_input#*=}"
 					shift;;
 				-u | --push-images)
 					_IS_PUSH_IMAGES=true
@@ -133,22 +133,22 @@ main()
 					_IS_CROSS_COMPILE=true
 					shift;;
 				-b=* | --base-image=*)
-					BUILD_BASE_IMAGE="${_INPUT#*=}"
+					BUILD_BASE_IMAGE="${_input#*=}"
 					shift;;
 				-n=* | --namespace=*)
-					BUILD_IMG_NAMESCAPE="${_INPUT#*=}"
+					BUILD_IMG_NAMESCAPE="${_input#*=}"
 					shift;;
 				-r=* | --repo=*)
-					BUILD_IMG_REPO="${_INPUT#*=}"
+					BUILD_IMG_REPO="${_input#*=}"
 					shift;;
 				-v=* | --version=*)
-					BUILD_IMG_VERSION="${_INPUT#*=}"
+					BUILD_IMG_VERSION="${_input#*=}"
 					shift;;
 				-s=* | --subtag=*)
-					BUILD_IMG_SUBTAG="${_INPUT#*=}"
+					BUILD_IMG_SUBTAG="${_input#*=}"
 					shift;;
 				*)
-					echoError "Failed to parsing input -> ${_INPUT}"
+					echoError "Failed to parsing input -> ${_input}"
 					echoInfo "USAGE: ${0}  -p=*, --platform=* [amd64 | arm64] | -u, --push-images | -c, --clean-images | -x, --cross-compile | -b=*, --base-image=* | -n=*, --namespace=* | -r=*, --repo=* | -v=*, --version=* | -s=*, --subtag=*"
 					exit 1;;
 			esac
