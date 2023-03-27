@@ -28,17 +28,17 @@ main()
 	/usr/local/bin/certbot-permissions.sh
 
 	if [ -d "/root/.secrets/certbot" ]; then
-		chown -R 1000:${GROUP} /root/.secrets/certbot || exit 2
-		find /root/.secrets/certbot -type d -exec chmod 770 {} + || exit 2
-		find /root/.secrets/certbot -type f -exec chmod 660 {} + || exit 2
-		find /root/.secrets/certbot -type d -exec chmod ug+s {} + || exit 2
+		chown -Rc 1000:${GROUP} /root/.secrets/certbot || exit 2
+		find /root/.secrets/certbot -type d -exec chmod -c 770 {} + || exit 2
+		find /root/.secrets/certbot -type f -exec chmod -c 660 {} + || exit 2
+		find /root/.secrets/certbot -type d -exec chmod -c ug+s {} + || exit 2
 	fi
 
 	if [ -d "/root/.aws" ]; then
-		chown -R 1000:${GROUP} /root/.aws || exit 2
-		find /root/.aws -type d -exec chmod 770 {} + || exit 2
-		find /root/.aws -type f -exec chmod 660 {} + || exit 2
-		find /root/.aws -type d -exec chmod ug+s {} + || exit 2
+		chown -Rc 1000:${GROUP} /root/.aws || exit 2
+		find /root/.aws -type d -exec chmod -c 770 {} + || exit 2
+		find /root/.aws -type f -exec chmod -c 660 {} + || exit 2
+		find /root/.aws -type d -exec chmod -c ug+s {} + || exit 2
 	fi
 	echo -e "SUCCESS: Done.\n"
 
