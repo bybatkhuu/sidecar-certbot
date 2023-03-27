@@ -31,7 +31,7 @@ main()
 		mkdir -pv ${BACKUPS_DIR} || exit 2
 	fi
 
-	tar -czpfv ${BACKUPS_DIR}/certbot.$(date -u '+%y%m%d_%H%M%S').tar.gz -C ./volumes/storage ./certbot || exit 2
+	tar -czpvf ${BACKUPS_DIR}/certbot.$(date -u '+%y%m%d_%H%M%S').tar.gz -C ./volumes/storage ./certbot || exit 2
 	echoOk "Done."
 }
 
