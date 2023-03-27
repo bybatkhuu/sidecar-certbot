@@ -19,7 +19,7 @@ fi
 
 ## --- Variables --- ##
 # Load from envrionment variables:
-BACKUPS_DIR="${BACKUPS_DIR:-./volumes/storage/certbot/backups}"
+BACKUPS_DIR="${BACKUPS_DIR:-./volumes/backups}"
 ## --- Variables --- ##
 
 
@@ -31,8 +31,7 @@ main()
 		mkdir -pv ${BACKUPS_DIR} || exit 2
 	fi
 
-	tar -czpvf ${BACKUPS_DIR}/ssl.$(date -u '+%y%m%d_%H%M%S').tar.gz -C ./volumes/storage/certbot ./ssl || exit 2
-	tar -czpvf ${BACKUPS_DIR}/logs.$(date -u '+%y%m%d_%H%M%S').tar.gz -C ./volumes/storage/certbot ./logs || exit 2
+	tar -czpvf ${BACKUPS_DIR}/certbot.$(date -u '+%y%m%d_%H%M%S').tar.gz -C ./volumes/storage ./certbot || exit 2
 	echoOk "Done."
 }
 
