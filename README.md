@@ -232,7 +232,7 @@ For example as in **`docker-compose.override.yml`** file:
 ## Documentation
 
 - [Build docker image](docs/docker-build.md)
-- [Certbot command examples](docs/certbot-examples.md)
+- [Certbot examples](docs/certbot-examples.md)
 
 ## Roadmap
 

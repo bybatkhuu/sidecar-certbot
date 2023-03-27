@@ -24,6 +24,16 @@ _DEFAULT_SERVICE="certbot"
 
 
 ## --- Functions --- ##
+_doBuild()
+{
+	docker compose build || exit 2
+}
+
+_doValidate()
+{
+	docker compose config || exit 2
+}
+
 _doStart()
 {
 	if [ "${1:-}" == "-l" ]; then
@@ -71,6 +81,26 @@ _doPs()
 	docker compose top ${@:-} || exit 2
 }
 
+_doStats()
+{
+	docker stats $(docker compose ps -q) || exit 2
+}
+
+_doExec()
+{
+	if [ -z "${1:-}" ]; then
+		echoError "Not found any input."
+		exit 1
+	fi
+
+	docker compose exec ${_DEFAULT_SERVICE} ${@} || exit 2
+}
+
+_doCerts()
+{
+	docker compose exec certbot certbot certificates || exit 2
+}
+
 _doEnter()
 {
 	_service="${_DEFAULT_SERVICE}"
@@ -80,11 +110,6 @@ _doEnter()
 
 	echoInfo "Entering '${_service}' container..."
 	docker compose exec ${_service} /bin/bash || exit 2
-}
-
-_doStats()
-{
-	docker stats $(docker compose ps -q) || exit 2
 }
 
 _doImages()
@@ -103,31 +128,6 @@ _doUpdate()
 	echoOk "Done."
 }
 
-_doValidate()
-{
-	docker compose config || exit 2
-}
-
-_doCerts()
-{
-	docker compose exec certbot certbot certificates || exit 2
-}
-
-_doExec()
-{
-	if [ -z "${1:-}" ]; then
-		echoError "Not found any input."
-		exit 1
-	fi
-
-	docker compose exec ${_DEFAULT_SERVICE} ${@} || exit 2
-}
-
-_doBuild()
-{
-	docker compose build || exit 2
-}
-
 _doClean()
 {
 	_doStop
@@ -139,7 +139,7 @@ _doClean()
 ## --- Menu arguments --- ##
 _exitOnWrongParams()
 {
-	echoInfo "USAGE: ${0} start | stop | restart | logs | list | ps | enter | stats | images | update | validate | certs | exec | build | clean"
+	echoInfo "USAGE: ${0} build | validate | start | stop | restart | logs | list | ps | stats | exec | certs | enter | images | update | clean"
 	exit 1
 }
 
@@ -151,6 +151,12 @@ main()
 	fi
 
 	case ${1} in
+		build)
+			shift
+			_doBuild;;
+		validate | config)
+			shift
+			_doValidate;;
 		start | run)
 			shift
 			_doStart "${@:-}";;
@@ -168,30 +174,24 @@ main()
 		ps)
 			shift
 			_doPs "${@:-}";;
-		enter)
-			shift
-			_doEnter "${@:-}";;
 		stats | resource | limit)
 			shift
 			_doStats;;
+		exec)
+			shift
+			_doExec "${@:-}";;
+		certs | certificates)
+			shift
+			_doCerts;;
+		enter)
+			shift
+			_doEnter "${@:-}";;
 		images)
 			shift
 			_doImages "${@:-}";;
 		update)
 			shift
 			_doUpdate "${@:-}";;
-		validate | config)
-			shift
-			_doValidate;;
-		certs | certificates)
-			shift
-			_doCerts;;
-		exec)
-			shift
-			_doExec "${@:-}";;
-		build)
-			shift
-			_doBuild;;
 		clean | clear)
 			shift
 			_doClean;;

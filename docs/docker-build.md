@@ -12,7 +12,7 @@
 # -x, --cross-compile                       Enable cross compiling.
 # -b=BASE_IMAGE, --base-image=BASE_IMAGE    Base image name. Default is "python:3.9.16-slim-bullseye".
 # -n=NAMESPACE, --namespace=NAMESPACE       Docker image name space. Default is "voiceprint".
-# -r=REPO, --repo=REPO                      Docker image repository. Default is "sidecar.certbot".
+# -r=REPO, --repo=REPO                      Docker image repository. Default is "certbot".
 # -v=VERSION, --version=VERSION             Docker image version. Default is "$(cat version.txt)".
 # -s=SUBTAG, --subtag=SUBTAG                Docker image subtag. Default is "".
 
@@ -24,7 +24,7 @@
 ./scripts/build.sh -x
 
 # Or:
-./scripts/build.sh -p=arm64 -b=python:3.9.16-slim-bullseye -n=voiceprint -r=sidecar.certbot -v=1.0.0 -s=-arm64 -u -c
+./scripts/build.sh -p=arm64 -b=python:3.9.16-slim-bullseye -n=voiceprint -r=certbot -v=1.0.0 -s=-arm64 -u -c
 ```
 
 **B.** Or docker build command:
