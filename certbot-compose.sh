@@ -64,10 +64,10 @@ _doRestart()
 _doLogs()
 {
 	if [ ! -z "${1:-}" ]; then
-		# docker compose logs -f --tail 50 ${@} || exit 2
-		docker compose ps -q ${@} | xargs -n 1 docker logs -f -n 50 || exit 2
+		# docker compose logs -f --tail 100 ${@} || exit 2
+		docker compose ps -q ${@} | xargs -n 1 docker logs -f -n 100 || exit 2
 	else
-		docker compose logs -f --tail 50 || exit 2
+		docker compose logs -f --tail 100 || exit 2
 	fi
 }
 

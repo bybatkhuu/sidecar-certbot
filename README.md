@@ -151,7 +151,7 @@ docker compose config
 ./certbot-compose.sh start -l
 
 # Or:
-docker compose up -d && docker compose logs -f --tail 50
+docker compose up -d && docker compose logs -f --tail 100
 ```
 
 ### 5. Check certificates
