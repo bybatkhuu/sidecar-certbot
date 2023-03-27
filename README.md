@@ -194,6 +194,9 @@ CERTBOT_EMAIL=user@email.com
 
 # Domain names to obtain certificates:
 CERTBOT_DOMAINS="example.com,www.example.com"
+
+# DNS propagation timeout (in seconds):
+CERTBOT_DNS_TIMEOUT=30
 ```
 
 ## Arguments

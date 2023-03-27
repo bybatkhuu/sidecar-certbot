@@ -6,6 +6,7 @@ echo -e "INFO: Running certbot docker-entrypoint.sh...\n"
 
 # CERTBOT_EMAIL=${CERTBOT_EMAIL:-user@example.com}
 # CERTBOT_DOMAINS=${CERTBOT_DOMAINS:-example.com,*.example.com}
+CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
 
 
 main()
@@ -95,32 +96,32 @@ main()
 							exit 1
 						fi
 					fi
-					_certbot_new="--dns-route53"
-					_certbot_renew="--dns-route53"
+					_certbot_new="--dns-${_dns} --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
+					_certbot_renew="${_certbot_new}"
 
 				elif [ "${_dns}" = "godaddy" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
 						echo "ERROR: '/root/.secrets/certbot/${_dns}.ini' file is not found."
 						exit 1
 					fi
-					_certbot_new="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
-					_certbot_renew="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
+					_certbot_new="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
+					_certbot_renew="${_certbot_new}"
 
 				elif [ "${_dns}" = "google" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.json" ]; then
 						echo "ERROR: '/root/.secrets/certbot/${_dns}.json' file is not found."
 						exit 1
 					fi
-					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json"
-					_certbot_renew="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json"
+					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
+					_certbot_renew="${_certbot_new}"
 
 				elif [ "${_dns}" = "cloudflare" ] || [ "${_dns}" = "digitalocean" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
 						echo "ERROR: '/root/.secrets/certbot/${_dns}.ini' file is not found."
 						exit 1
 					fi
-					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
-					_certbot_renew="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini"
+					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
+					_certbot_renew="${_certbot_new}"
 
 				else
 					echo "ERROR: Unsupported DNS plugin -> ${_dns}"

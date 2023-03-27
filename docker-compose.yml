@@ -11,6 +11,7 @@ services:
       - TZ=${TZ:-Asia/Seoul}
       - CERTBOT_EMAIL=${CERTBOT_EMAIL}
       - CERTBOT_DOMAINS=${CERTBOT_DOMAINS}
+      - CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
     volumes:
       - "./volumes/storage/certbot/ssl:/etc/letsencrypt"
       - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
