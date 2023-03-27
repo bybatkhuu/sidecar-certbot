@@ -20,7 +20,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Installing system dependencies
 # hadolint ignore=DL3008,DL3013
-RUN rm -vrf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/* && \
+RUN rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/* && \
 	apt-get clean -y && \
 	apt-get update --fix-missing -o Acquire::CompressionTypes::Order::=gz && \
 	apt-get install -y --no-install-recommends \
@@ -48,14 +48,14 @@ RUN rm -vrf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 	pip install --timeout 60 --no-cache-dir --upgrade pip && \
 	pip install --timeout 60 --no-cache-dir certbot certbot-dns-cloudflare && \
 	pip cache purge && \
-	mkdir -vp /etc/letsencrypt/live /var/lib/letsencrypt /var/log/letsencrypt /var/www/.well-known/acme-challenge && \
-	chown -R www-data:${GROUP} /var/www/.well-known && \
-	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod 775 {} + && \
-	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod +s {} + && \
-	chown -R 1000:${GROUP} /etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt && \
-	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod 770 {} + && \
-	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod ug+s {} + && \
-	rm -vrf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
+	mkdir -pv /etc/letsencrypt/live /var/lib/letsencrypt /var/log/letsencrypt /var/www/.well-known/acme-challenge && \
+	chown -Rc www-data:${GROUP} /var/www/.well-known && \
+	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod -c 775 {} + && \
+	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod -c +s {} + && \
+	chown -Rc 1000:${GROUP} /etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt && \
+	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod -c 770 {} + && \
+	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod -c ug+s {} + && \
+	rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 
 ENV	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
