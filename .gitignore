@@ -467,7 +467,8 @@ docker-compose.override.yaml
 
 backups
 backups/*
-volumes
-volumes/*
+#volumes
+volumes/**
+!volumes/**/
 
-!volumes/**/.gitkeep
+!volumes/**/*.gitkeep
