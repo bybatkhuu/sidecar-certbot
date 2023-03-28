@@ -22,7 +22,7 @@ fi
 ## --- Variables --- ##
 # Load from envrionment variables:
 # BUILD_BASE_IMAGE
-BUILD_IMG_NAMESCAPE=${BUILD_IMG_NAMESCAPE:-voiceprint}
+BUILD_IMG_NAMESCAPE=${BUILD_IMG_NAMESCAPE:-bybatkhuu}
 BUILD_IMG_REPO=${BUILD_IMG_REPO:-certbot}
 BUILD_IMG_VERSION=${BUILD_IMG_VERSION:-$(cat version.txt)}
 BUILD_IMG_SUBTAG=${BUILD_IMG_SUBTAG:-}
