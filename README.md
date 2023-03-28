@@ -52,7 +52,7 @@ For **development**:
 
 ```sh
 # Create projects directory:
-mkdir -vp ~/workspaces/projects
+mkdir -pv ~/workspaces/projects
 
 # Enter into projects directory:
 cd ~/workspaces/projects
@@ -90,7 +90,7 @@ mv -v sidecar.certbot-${_VERSION} sidecar.certbot
 # Set repository owner:
 export _REPO_OWNER=[REPO_OWNER]
 # For example:
-export _REPO_OWNER=voiceprint
+export _REPO_OWNER=bybatkhuu
 
 git clone git@github.com:${_REPO_OWNER}/sidecar.certbot.git
 ```

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   certbot:
-    image: ${CERTBOT_IMG_NAMESCAPE:-voiceprint}/certbot:${CERTBOT_IMG_VERSION:-latest}
+    image: ${CERTBOT_IMG_NAMESCAPE:-bybatkhuu}/certbot:${CERTBOT_IMG_VERSION:-latest}
     build:
       context: .
     restart: unless-stopped
