@@ -21,14 +21,14 @@ fi
 
 ## --- Variables --- ##
 # Load from envrionment variables:
-# BUILD_BASE_IMAGE
-BUILD_IMG_NAMESCAPE=${BUILD_IMG_NAMESCAPE:-bybatkhuu}
-BUILD_IMG_REPO=${BUILD_IMG_REPO:-certbot}
-BUILD_IMG_VERSION=${BUILD_IMG_VERSION:-$(cat version.txt)}
-BUILD_IMG_SUBTAG=${BUILD_IMG_SUBTAG:-}
-BUILD_IMG_PLATFORM=${BUILD_IMG_PLATFORM:-$(uname -m)}
+# BASE_IMAGE
+IMG_NAMESCAPE=${IMG_NAMESCAPE:-}
+IMG_REPO=${IMG_REPO:-certbot}
+IMG_VERSION=${IMG_VERSION:-$(cat version.txt)}
+IMG_SUBTAG=${IMG_SUBTAG:-}
+IMG_PLATFORM=${IMG_PLATFORM:-$(uname -m)}
 
-BUILD_IMG_ARGS="${BUILD_IMG_ARGS:-}"
+IMG_ARGS="${IMG_ARGS:-}"
 
 # Flags:
 _IS_CROSS_COMPILE=false
@@ -36,24 +36,24 @@ _IS_PUSH_IMAGES=false
 _IS_CLEAN_IMAGES=false
 
 # Calculated variables:
-_BUILD_IMG_NAME=${BUILD_IMG_NAMESCAPE}/${BUILD_IMG_REPO}
-_BUILD_IMG_FULLNAME=${_BUILD_IMG_NAME}:${BUILD_IMG_VERSION}${BUILD_IMG_SUBTAG}
-_BUILD_IMG_LATEST_FULLNAME=${_BUILD_IMG_NAME}:latest${BUILD_IMG_SUBTAG}
+_IMG_NAME=${IMG_NAMESCAPE}/${IMG_REPO}
+_IMG_FULLNAME=${_IMG_NAME}:${IMG_VERSION}${IMG_SUBTAG}
+_IMG_LATEST_FULLNAME=${_IMG_NAME}:latest${IMG_SUBTAG}
 ## --- Variables --- ##
 
 
 ## --- Functions --- ##
 _buildImages()
 {
-	echoInfo "Building image (${BUILD_IMG_PLATFORM}): ${_BUILD_IMG_FULLNAME}"
+	echoInfo "Building image (${IMG_PLATFORM}): ${_IMG_FULLNAME}"
 	docker build \
-		${BUILD_IMG_ARGS} \
+		${IMG_ARGS} \
 		--progress plain \
-		--platform ${BUILD_IMG_PLATFORM} \
-		-t ${_BUILD_IMG_FULLNAME} \
-		-t ${_BUILD_IMG_LATEST_FULLNAME} \
-		-t ${_BUILD_IMG_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} \
-		-t ${_BUILD_IMG_LATEST_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} \
+		--platform ${IMG_PLATFORM} \
+		-t ${_IMG_FULLNAME} \
+		-t ${_IMG_LATEST_FULLNAME} \
+		-t ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} \
+		-t ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} \
 		. || exit 2
 	echoOk "Done."
 }
@@ -66,15 +66,15 @@ _crossBuildPush()
 		echoOk "Done."
 	fi
 
-	echoInfo "Cross building images (linux/amd64, linux/arm64): ${_BUILD_IMG_FULLNAME}"
+	echoInfo "Cross building images (linux/amd64, linux/arm64): ${_IMG_FULLNAME}"
 	docker buildx build \
-		${BUILD_IMG_ARGS} \
+		${IMG_ARGS} \
 		--progress plain \
 		--platform linux/amd64,linux/arm64 \
-		--cache-from=type=registry,ref=${_BUILD_IMG_NAME}:cache-latest \
-		--cache-to=type=registry,ref=${_BUILD_IMG_NAME}:cache-latest,mode=max \
-		-t ${_BUILD_IMG_FULLNAME} \
-		-t ${_BUILD_IMG_LATEST_FULLNAME} \
+		--cache-from=type=registry,ref=${_IMG_NAME}:cache-latest \
+		--cache-to=type=registry,ref=${_IMG_NAME}:cache-latest,mode=max \
+		-t ${_IMG_FULLNAME} \
+		-t ${_IMG_LATEST_FULLNAME} \
 		--push \
 		. || exit 2
 	echoOk "Done."
@@ -94,20 +94,20 @@ _removeCaches()
 _pushImages()
 {
 	echoInfo "Pushing images..."
-	docker push ${_BUILD_IMG_FULLNAME} || exit 2
-	docker push ${_BUILD_IMG_LATEST_FULLNAME} || exit 2
-	docker push ${_BUILD_IMG_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} || exit 2
-	docker push ${_BUILD_IMG_LATEST_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} || exit 2
+	docker push ${_IMG_FULLNAME} || exit 2
+	docker push ${_IMG_LATEST_FULLNAME} || exit 2
+	docker push ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
+	docker push ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
 	echoOk "Done."
 }
 
 _cleanImages()
 {
 	echoInfo "Cleaning images..."
-	docker rmi -f ${_BUILD_IMG_FULLNAME} || exit 2
-	# docker rmi -f ${_BUILD_IMG_LATEST_FULLNAME} || exit 2
-	docker rmi -f ${_BUILD_IMG_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} || exit 2
-	docker rmi -f ${_BUILD_IMG_LATEST_FULLNAME}-${BUILD_IMG_PLATFORM#linux/*} || exit 2
+	docker rmi -f ${_IMG_FULLNAME} || exit 2
+	# docker rmi -f ${_IMG_LATEST_FULLNAME} || exit 2
+	docker rmi -f ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
+	docker rmi -f ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
 	echoOk "Done."
 }
 ## --- Functions --- ##
@@ -121,7 +121,7 @@ main()
 		for _input in "${@:-}"; do
 			case ${_input} in
 				-p=* | --platform=*)
-					BUILD_IMG_PLATFORM="${_input#*=}"
+					IMG_PLATFORM="${_input#*=}"
 					shift;;
 				-u | --push-images)
 					_IS_PUSH_IMAGES=true
@@ -133,19 +133,19 @@ main()
 					_IS_CROSS_COMPILE=true
 					shift;;
 				-b=* | --base-image=*)
-					BUILD_BASE_IMAGE="${_input#*=}"
+					BASE_IMAGE="${_input#*=}"
 					shift;;
 				-n=* | --namespace=*)
-					BUILD_IMG_NAMESCAPE="${_input#*=}"
+					IMG_NAMESCAPE="${_input#*=}"
 					shift;;
 				-r=* | --repo=*)
-					BUILD_IMG_REPO="${_input#*=}"
+					IMG_REPO="${_input#*=}"
 					shift;;
 				-v=* | --version=*)
-					BUILD_IMG_VERSION="${_input#*=}"
+					IMG_VERSION="${_input#*=}"
 					shift;;
 				-s=* | --subtag=*)
-					BUILD_IMG_SUBTAG="${_input#*=}"
+					IMG_SUBTAG="${_input#*=}"
 					shift;;
 				*)
 					echoError "Failed to parsing input -> ${_input}"
@@ -157,21 +157,26 @@ main()
 	## --- Menu arguments --- ##
 
 
-	## --- Init arguments --- ##
-	if [ ! -z "${BUILD_BASE_IMAGE:-}" ]; then
-		BUILD_IMG_ARGS="${BUILD_IMG_ARGS} --build-arg BASE_IMAGE=${BUILD_BASE_IMAGE}"
+	if [ -z "${IMG_NAMESCAPE:-}" ]; then
+		echoError "Required 'IMG_NAMESCAPE' environment variable or '--namespace=' argument for image namespace!"
+		exit 1
 	fi
 
-	_BUILD_IMG_NAME=${BUILD_IMG_NAMESCAPE}/${BUILD_IMG_REPO}
-	_BUILD_IMG_FULLNAME=${_BUILD_IMG_NAME}:${BUILD_IMG_VERSION}${BUILD_IMG_SUBTAG}
-	_BUILD_IMG_LATEST_FULLNAME=${_BUILD_IMG_NAME}:latest${BUILD_IMG_SUBTAG}
+	## --- Init arguments --- ##
+	if [ ! -z "${BASE_IMAGE:-}" ]; then
+		IMG_ARGS="${IMG_ARGS} --build-arg BASE_IMAGE=${BASE_IMAGE}"
+	fi
 
-	if [ "${BUILD_IMG_PLATFORM}" = "x86_64" ] || [ "${BUILD_IMG_PLATFORM}" = "amd64" ] || [ "${BUILD_IMG_PLATFORM}" = "linux/amd64" ]; then
-		BUILD_IMG_PLATFORM="linux/amd64"
-	elif [ "${BUILD_IMG_PLATFORM}" = "aarch64" ] || [ "${BUILD_IMG_PLATFORM}" = "arm64" ] || [ "${BUILD_IMG_PLATFORM}" = "linux/arm64" ]; then
-		BUILD_IMG_PLATFORM="linux/arm64"
+	_IMG_NAME=${IMG_NAMESCAPE}/${IMG_REPO}
+	_IMG_FULLNAME=${_IMG_NAME}:${IMG_VERSION}${IMG_SUBTAG}
+	_IMG_LATEST_FULLNAME=${_IMG_NAME}:latest${IMG_SUBTAG}
+
+	if [ "${IMG_PLATFORM}" = "x86_64" ] || [ "${IMG_PLATFORM}" = "amd64" ] || [ "${IMG_PLATFORM}" = "linux/amd64" ]; then
+		IMG_PLATFORM="linux/amd64"
+	elif [ "${IMG_PLATFORM}" = "aarch64" ] || [ "${IMG_PLATFORM}" = "arm64" ] || [ "${IMG_PLATFORM}" = "linux/arm64" ]; then
+		IMG_PLATFORM="linux/arm64"
 	else
-		echoError "Unsupported platform: ${BUILD_IMG_PLATFORM}"
+		echoError "Unsupported platform: ${IMG_PLATFORM}"
 		exit 2
 	fi
 	## --- Init arguments --- ##
