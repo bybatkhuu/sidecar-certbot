@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   certbot:
-    image: ${CERTBOT_IMG_NAMESCAPE:-bybatkhuu}/certbot:${CERTBOT_IMG_VERSION:-latest}
+    image: ${IMG_NAMESCAPE}/certbot:latest
     build:
       context: .
     restart: unless-stopped
@@ -15,6 +15,6 @@ services:
     volumes:
       - "./volumes/storage/certbot/ssl:/etc/letsencrypt"
       - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
-    tty: true
     network_mode: host
+    tty: true
     command: ["--renew=standalone"]

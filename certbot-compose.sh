@@ -130,7 +130,10 @@ _doUpdate()
 
 _doClean()
 {
-	_doStop
+	if [ ! -z "$(docker compose ps | grep 'Up')" ]; then
+		_doStop
+	fi
+
 	rm -rfv ./volumes/storage/certbot/logs/* ./volumes/storage/certbot/ssl/* || exit 2
 }
 ## --- Functions --- ##

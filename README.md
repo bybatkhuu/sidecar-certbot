@@ -62,8 +62,7 @@ cd ~/workspaces/projects
 
 **A.** Download source code from releases page:
 
-- Latest release - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases/latest>
-- All releases - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases>
+- Releases - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases>
 
 ```sh
 # Set to downloaded version:
@@ -90,7 +89,7 @@ mv -v sidecar.certbot-${_VERSION} sidecar.certbot
 # Set repository owner:
 export _REPO_OWNER=[REPO_OWNER]
 # For example:
-export _REPO_OWNER=bybatkhuu
+export _REPO_OWNER=username
 
 git clone git@github.com:${_REPO_OWNER}/sidecar.certbot.git
 ```
