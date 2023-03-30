@@ -56,6 +56,11 @@ mkdir -pv ~/workspaces/projects
 
 # Enter into projects directory:
 cd ~/workspaces/projects
+
+# Set to downloaded version:
+export _VERSION=[VERSION]
+# For example:
+export _VERSION=1.0.0
 ```
 
 **2.2.** Follow one of the below options **[A]** or **[B]**:
@@ -65,11 +70,6 @@ cd ~/workspaces/projects
 - Releases - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases>
 
 ```sh
-# Set to downloaded version:
-export _VERSION=[VERSION]
-# For example:
-export _VERSION=1.0.0
-
 # Move downloaded archive file to current projects directory:
 mv -v ~/Downloads/sidecar.certbot-${_VERSION}.zip .
 
@@ -80,24 +80,13 @@ unzip sidecar.certbot-${_VERSION}.zip
 rm -v sidecar.certbot-${_VERSION}.zip
 
 # Rename extracted directory into project name:
-mv -v sidecar.certbot-${_VERSION} sidecar.certbot
+mv -v sidecar.certbot-${_VERSION} sidecar.certbot && cd sidecar.certbot
 ```
 
 **B.** Or clone the repository (git + ssh key):
 
 ```sh
-# Set repository owner:
-export _REPO_OWNER=[REPO_OWNER]
-# For example:
-export _REPO_OWNER=username
-
-git clone git@github.com:${_REPO_OWNER}/sidecar.certbot.git
-```
-
-**2.3.** Enter into project directory:
-
-```sh
-cd sidecar.certbot
+git clone git@github.com:${_REPO_OWNER}/sidecar.certbot.git && cd sidecar.certbot
 ```
 
 ### 3. Configure environment
@@ -188,13 +177,16 @@ You can use the following environment variables to configure:
 [**`.env.example`**](.env.example)
 
 ```sh
-# Email address for Let's Encrypt domain registration:
+## Docker image namespace:
+IMG_NAMESCAPE=username
+
+## Email address for Let's Encrypt domain registration:
 CERTBOT_EMAIL=user@email.com
 
-# Domain names to obtain certificates:
+## Domain names to obtain certificates:
 CERTBOT_DOMAINS="example.com,www.example.com"
 
-# DNS propagation timeout (in seconds):
+## DNS propagation timeout (in seconds):
 CERTBOT_DNS_TIMEOUT=30
 ```
 
@@ -224,10 +216,10 @@ For example as in **`docker-compose.override.yml`** file:
     command: ["--server=production", "--renew=standalone"]
     command: ["--new=webroot", "--disable-renew"]
     command: ["--server=production", "--dns=cloudflare"]
+    command: ["--dns=digitalocean"]
     command: ["--dns=route53"]
     command: ["--dns=google"]
     command: ["--dns=godaddy"]
-    command: ["--dns=digitalocean"]
     command: ["/bin/bash"]
 ```
 
