@@ -57,10 +57,10 @@ mkdir -pv ~/workspaces/projects
 # Enter into projects directory:
 cd ~/workspaces/projects
 
-# Set to downloaded version:
-export _VERSION=[VERSION]
+# Set repository owner:
+export _REPO_OWNER=[REPO_OWNER]
 # For example:
-export _VERSION=1.0.0
+export _REPO_OWNER=username
 ```
 
 **2.2.** Follow one of the below options **[A]** or **[B]**:
@@ -70,6 +70,11 @@ export _VERSION=1.0.0
 - Releases - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases>
 
 ```sh
+# Set to downloaded version:
+export _VERSION=[VERSION]
+# For example:
+export _VERSION=1.0.0
+
 # Move downloaded archive file to current projects directory:
 mv -v ~/Downloads/sidecar.certbot-${_VERSION}.zip .
 
