@@ -29,14 +29,14 @@ main()
 	/usr/local/bin/certbot-permissions.sh
 
 	if [ -d "/root/.secrets/certbot" ]; then
-		chown -Rc 1000:${GROUP} /root/.secrets/certbot || exit 2
+		chown -Rc "1000:${GROUP}" /root/.secrets/certbot || exit 2
 		find /root/.secrets/certbot -type d -exec chmod -c 770 {} + || exit 2
 		find /root/.secrets/certbot -type f -exec chmod -c 660 {} + || exit 2
 		find /root/.secrets/certbot -type d -exec chmod -c ug+s {} + || exit 2
 	fi
 
 	if [ -d "/root/.aws" ]; then
-		chown -Rc 1000:${GROUP} /root/.aws || exit 2
+		chown -Rc "1000:${GROUP}" /root/.aws || exit 2
 		find /root/.aws -type d -exec chmod -c 770 {} + || exit 2
 		find /root/.aws -type f -exec chmod -c 660 {} + || exit 2
 		find /root/.aws -type d -exec chmod -c ug+s {} + || exit 2
@@ -131,7 +131,7 @@ main()
 				_pip_dns="certbot-dns-${_dns}"
 				if [ "${_dns}" != "cloudflare" ]; then
 					echo "INFO: Installing certbot DNS plugin -> ${_dns}..."
-					pip install --timeout 60 --no-cache-dir ${_pip_dns} || exit 2
+					pip install --timeout 60 --no-cache-dir "${_pip_dns}" || exit 2
 					pip cache purge || exit 2
 					echo -e "SUCCESS: Done.\n"
 				fi
@@ -143,23 +143,24 @@ main()
 
 			-b | --bash | bash | /bin/bash)
 				shift
-				if [ -z "${@:-}" ]; then
+				if [ -z "${*:-}" ]; then
 					echo "INFO: Starting bash..."
 					/bin/bash
 				else
-					echo "INFO: Executing command -> ${@}"
+					echo "INFO: Executing command -> ${*}"
 					/bin/bash -c "${@}" || exit 2
 				fi
 				exit 0;;
 			*)
-				echo "ERROR: Failed to parsing input -> ${@}"
+				echo "ERROR: Failed to parsing input -> ${*}"
 				echo "USAGE: ${0} -s=*, --server=* [staging | production] | -n=*, --new=* [standalone | webroot] | -r=*, --renew=* [standalone | webroot] | -d=*, --dns=* [cloudflare | digitalocean | google | route53 | godaddy] | -D, --disable-renew | -b, --bash, bash, /bin/bash"
 				exit 1;;
 		esac
 	done
 
 	echo "INFO: Obtaining certificates..."
-	certbot certonly -n --agree-tos --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m ${CERTBOT_EMAIL} -d ${CERTBOT_DOMAINS} || exit 2
+	# shellcheck disable=SC2086
+	certbot certonly -n --agree-tos --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
 	echo -e "SUCCESS: Done.\n"
 
 	/usr/local/bin/certbot-permissions.sh

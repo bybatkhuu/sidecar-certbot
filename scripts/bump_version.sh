@@ -9,12 +9,14 @@ _PROJECT_DIR="$(cd "${_SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)"
 cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
-source ${_SCRIPT_DIR}/base.sh
+# shellcheck disable=SC1091
+source "${_SCRIPT_DIR}/base.sh"
 
 exitIfNoGit
 
 # Loading .env file:
 if [ -f ".env" ]; then
+	# shellcheck disable=SC1091
 	source .env
 fi
 ## --- Base --- ##
@@ -31,13 +33,13 @@ main()
 {
 	echoInfo "Checking version..."
 	_old_version=""
-	if [ ! -z "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
+	if [ -n "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
 
 		echoInfo "Found version file: '${VERSION_FILENAME}'"
-		_old_version=$(cat ${VERSION_FILENAME}) || exit 2
+		_old_version=$(cat "${VERSION_FILENAME}") || exit 2
 
 	# Check if there are any tags matching the pattern "v*.*.*-*":
-	elif [ ! -z "$(git tag -l 'v*.*.*-*')" ]; then
+	elif [ -n "$(git tag -l 'v*.*.*-*')" ]; then
 
 		echoInfo "Found version tag."
 		# Get the most recent tag which matches the pattern "v*.*.*-*":
@@ -53,9 +55,9 @@ main()
 
 
 	# Split the version string into its components:
-	_major=$(echo $_old_version | cut -d. -f1)
-	_minor=$(echo $_old_version | cut -d. -f2)
-	_patch=$(echo $_old_version | cut -d. -f3 | cut -d- -f1)
+	_major=$(echo "${_old_version}" | cut -d. -f1)
+	_minor=$(echo "${_old_version}" | cut -d. -f2)
+	_patch=$(echo "${_old_version}" | cut -d. -f3 | cut -d- -f1)
 
 
 	# Checking bump type is empty:
@@ -86,12 +88,12 @@ main()
 		exit 1
 	else
 		echoInfo "Bumping version to '${_new_version}'..."
-		if [ ! -z "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
+		if [ -n "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
 			# Update the version file with the new version:
-			echo ${_new_version} > ${VERSION_FILENAME} || exit 2
+			echo "${_new_version}" > "${VERSION_FILENAME}" || exit 2
 
 			# Commit the updated version file:
-			git add ${VERSION_FILENAME} || exit 2
+			git add "${VERSION_FILENAME}" || exit 2
 			git commit -m ":bookmark: Bump version to ${_new_version}." || exit 2
 			git push || exit 2
 		fi

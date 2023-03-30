@@ -5,9 +5,8 @@ services:
     # env_file:
     #   - .env
     volumes:
-      - "./scripts/docker/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh"
       - "./scripts/docker/certbot-permissions.sh:/usr/local/bin/certbot-permissions.sh"
-      # - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
+      - "./scripts/docker/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh"
       # - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
       # - "./volumes/storage/certbot/secrets:/root/.aws"
       - "./volumes/.vscode-server:/root/.vscode-server"
@@ -20,12 +19,12 @@ services:
     # network_mode: bridge
     # ports:
     #   - "80:80"
-    command: ["--renew=standalone"]
     # command: ["--new=webroot"]
+    # command: ["--renew=standalone"]
     # command: ["--disable-renew"]
     # command: ["--dns=cloudflare"]
+    # command: ["--dns=digitalocean"]
     # command: ["--dns=route53"]
     # command: ["--dns=google"]
     # command: ["--dns=godaddy"]
-    # command: ["--dns=digitalocean"]
     # command: ["/bin/bash"]
