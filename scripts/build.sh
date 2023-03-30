@@ -8,12 +8,14 @@ _PROJECT_DIR="$(cd "${_SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)"
 cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
-source ${_SCRIPT_DIR}/base.sh
+# shellcheck disable=SC1091
+source "${_SCRIPT_DIR}/base.sh"
 
 exitIfNoDocker
 
 # Loading .env file:
 if [ -f ".env" ]; then
+	# shellcheck disable=SC1091
 	source .env
 fi
 ## --- Base --- ##
@@ -46,27 +48,29 @@ _IMG_LATEST_FULLNAME=${_IMG_NAME}:latest${IMG_SUBTAG}
 _buildImages()
 {
 	echoInfo "Building image (${IMG_PLATFORM}): ${_IMG_FULLNAME}"
+	# shellcheck disable=SC2086
 	docker build \
 		${IMG_ARGS} \
 		--progress plain \
 		--platform ${IMG_PLATFORM} \
-		-t ${_IMG_FULLNAME} \
-		-t ${_IMG_LATEST_FULLNAME} \
-		-t ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} \
-		-t ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} \
+		-t "${_IMG_FULLNAME}" \
+		-t "${_IMG_LATEST_FULLNAME}" \
+		-t "${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*}" \
+		-t "${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*}" \
 		. || exit 2
 	echoOk "Done."
 }
 
 _crossBuildPush()
 {
-	if [ -z "$(docker buildx ls | grep new_builder)" ]; then
+	if ! docker buildx ls | grep new_builder > /dev/null 2>&1; then
 		echoInfo "Creating new builder..."
 		docker buildx create --driver docker-container --bootstrap --use --name new_builder || exit 2
 		echoOk "Done."
 	fi
 
 	echoInfo "Cross building images (linux/amd64, linux/arm64): ${_IMG_FULLNAME}"
+	# shellcheck disable=SC2086
 	docker buildx build \
 		${IMG_ARGS} \
 		--progress plain \
@@ -87,6 +91,7 @@ _crossBuildPush()
 _removeCaches()
 {
 	echoInfo "Removing leftover cache images..."
+	# shellcheck disable=SC2046
 	docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc) 2> /dev/null || true
 	echoOk "Done."
 }
@@ -94,20 +99,20 @@ _removeCaches()
 _pushImages()
 {
 	echoInfo "Pushing images..."
-	docker push ${_IMG_FULLNAME} || exit 2
-	docker push ${_IMG_LATEST_FULLNAME} || exit 2
-	docker push ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
-	docker push ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
+	docker push "${_IMG_FULLNAME}" || exit 2
+	docker push "${_IMG_LATEST_FULLNAME}" || exit 2
+	docker push "${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*}" || exit 2
+	docker push "${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*}" || exit 2
 	echoOk "Done."
 }
 
 _cleanImages()
 {
 	echoInfo "Cleaning images..."
-	docker rmi -f ${_IMG_FULLNAME} || exit 2
-	# docker rmi -f ${_IMG_LATEST_FULLNAME} || exit 2
-	docker rmi -f ${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
-	docker rmi -f ${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*} || exit 2
+	docker rmi -f "${_IMG_FULLNAME}" || exit 2
+	# docker rmi -f "${_IMG_LATEST_FULLNAME}" || exit 2
+	docker rmi -f "${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*}" || exit 2
+	docker rmi -f "${_IMG_LATEST_FULLNAME}-${IMG_PLATFORM#linux/*}" || exit 2
 	echoOk "Done."
 }
 ## --- Functions --- ##
@@ -117,7 +122,7 @@ _cleanImages()
 main()
 {
 	## --- Menu arguments --- ##
-	if [ ! -z "${1:-}" ]; then
+	if [ -n "${1:-}" ]; then
 		for _input in "${@:-}"; do
 			case ${_input} in
 				-p=* | --platform=*)
@@ -163,7 +168,7 @@ main()
 	fi
 
 	## --- Init arguments --- ##
-	if [ ! -z "${BASE_IMAGE:-}" ]; then
+	if [ -n "${BASE_IMAGE:-}" ]; then
 		IMG_ARGS="${IMG_ARGS} --build-arg BASE_IMAGE=${BASE_IMAGE}"
 	fi
 

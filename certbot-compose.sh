@@ -8,7 +8,8 @@ _PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
-source ${_PROJECT_DIR}/scripts/base.sh
+# shellcheck disable=SC1091
+source "${_PROJECT_DIR}/scripts/base.sh"
 
 exitIfNoDocker
 exitIfNotExists ".env"
@@ -38,9 +39,11 @@ _doStart()
 {
 	if [ "${1:-}" == "-l" ]; then
 		shift
+		# shellcheck disable=SC2068
 		docker compose up -d ${@:-} || exit 2
 		_doLogs "${@:-}"
 	else
+		# shellcheck disable=SC2068
 		docker compose up -d ${@:-} || exit 2
 	fi
 }
@@ -50,6 +53,7 @@ _doStop()
 	if [ -z "${1:-}" ]; then
 		docker compose down || exit 2
 	else
+		# shellcheck disable=SC2068
 		docker compose rm -sfv ${@:-} || exit 2
 	fi
 }
@@ -63,8 +67,9 @@ _doRestart()
 
 _doLogs()
 {
-	if [ ! -z "${1:-}" ]; then
+	if [ -n "${1:-}" ]; then
 		# docker compose logs -f --tail 100 ${@} || exit 2
+		# shellcheck disable=SC2068
 		docker compose ps -q ${@} | xargs -n 1 docker logs -f -n 100 || exit 2
 	else
 		docker compose logs -f --tail 100 || exit 2
@@ -78,11 +83,13 @@ _doList()
 
 _doPs()
 {
+	# shellcheck disable=SC2068
 	docker compose top ${@:-} || exit 2
 }
 
 _doStats()
 {
+	# shellcheck disable=SC2046
 	docker stats $(docker compose ps -q) || exit 2
 }
 
@@ -93,7 +100,8 @@ _doExec()
 		exit 1
 	fi
 
-	docker compose exec ${_DEFAULT_SERVICE} ${@} || exit 2
+	# shellcheck disable=SC2068
+	docker compose exec "${_DEFAULT_SERVICE}" ${@} || exit 2
 }
 
 _doCerts()
@@ -104,33 +112,37 @@ _doCerts()
 _doEnter()
 {
 	_service="${_DEFAULT_SERVICE}"
-	if [ ! -z "${1:-}" ]; then
+	if [ -n "${1:-}" ]; then
 		_service=${1}
 	fi
 
 	echoInfo "Entering '${_service}' container..."
-	docker compose exec ${_service} /bin/bash || exit 2
+	docker compose exec "${_service}" /bin/bash || exit 2
 }
 
 _doImages()
 {
+	# shellcheck disable=SC2068
 	docker compose images ${@:-} || exit 2
 }
 
 _doUpdate()
 {
-	echoInfo "Updating docker images..."
-	_doStop "${@:-}" || exit 2
+	if docker compose ps | grep 'Up' > /dev/null 2>&1; then
+		_doStop "${@:-}" || exit 2
+	fi
+
+	# shellcheck disable=SC2068
 	docker compose pull ${@:-} || exit 2
+	# shellcheck disable=SC2046
 	docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1 || true
 
 	# _doStart "${@:-}" || exit 2
-	echoOk "Done."
 }
 
 _doClean()
 {
-	if [ ! -z "$(docker compose ps | grep 'Up')" ]; then
+	if docker compose ps | grep 'Up' > /dev/null 2>&1; then
 		_doStop
 	fi
 
@@ -199,7 +211,7 @@ main()
 			shift
 			_doClean;;
 		*)
-			echoError "Failed to parsing input: ${@}"
+			echoError "Failed to parsing input: ${*}"
 			_exitOnWrongParams;;
 	esac
 

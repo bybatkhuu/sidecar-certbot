@@ -8,10 +8,12 @@ _PROJECT_DIR="$(cd "${_SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)"
 cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
-source ${_SCRIPT_DIR}/base.sh
+# shellcheck disable=SC1091
+source "${_SCRIPT_DIR}/base.sh"
 
 # Loading .env file:
 if [ -f ".env" ]; then
+	# shellcheck disable=SC1091
 	source .env
 fi
 ## --- Base --- ##

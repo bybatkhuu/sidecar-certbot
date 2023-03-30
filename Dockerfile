@@ -9,8 +9,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG GID=11000
 ARG GROUP=certbot
 
-ENV GID=${GID} \
-	GROUP=${GROUP} \
+ENV GID="${GID}" \
+	GROUP="${GROUP}" \
 	PYTHONIOENCODING=utf-8
 
 WORKDIR /root
@@ -42,17 +42,17 @@ RUN rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 	update-locale LANG=en_US.UTF-8 && \
 	echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale && \
 	echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale && \
-	addgroup --gid ${GID} ${GROUP} && \
+	addgroup --gid "${GID}" "${GROUP}" && \
 	echo -e "\nalias ls='ls -aF --group-directories-first --color=auto'" >> /root/.bashrc && \
 	echo -e "alias ll='ls -alhF --group-directories-first --color=auto'\n" >> /root/.bashrc && \
 	pip install --timeout 60 --no-cache-dir --upgrade pip && \
 	pip install --timeout 60 --no-cache-dir certbot certbot-dns-cloudflare && \
 	pip cache purge && \
 	mkdir -pv /etc/letsencrypt/live /var/lib/letsencrypt /var/log/letsencrypt /var/www/.well-known/acme-challenge && \
-	chown -Rc www-data:${GROUP} /var/www/.well-known && \
+	chown -Rc "www-data:${GROUP}" /var/www/.well-known && \
 	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod -c 775 {} + && \
 	find /var/www/.well-known /var/log/letsencrypt -type d -exec chmod -c +s {} + && \
-	chown -Rc 1000:${GROUP} /etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt && \
+	chown -Rc "1000:${GROUP}" /etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt && \
 	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod -c 770 {} + && \
 	find /etc/letsencrypt /var/lib/letsencrypt -type d -exec chmod -c ug+s {} + && \
 	rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*

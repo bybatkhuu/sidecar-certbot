@@ -21,22 +21,22 @@ fi
 echoError()
 {
 	_date=$(date "${_DATE_FORMAT}")
-	echo -e "[${_date} | ${_RED}ERR${_NC} ]: ${@}"
+	echo -e "[${_date} | ${_RED}ERR${_NC} ]: ${*}"
 }
 echoWarn()
 {
 	_date=$(date "${_DATE_FORMAT}")
-	echo -e "[${_date} | ${_YELLOW}WARN${_NC}]: ${@}"
+	echo -e "[${_date} | ${_YELLOW}WARN${_NC}]: ${*}"
 }
 echoInfo()
 {
 	_date=$(date "${_DATE_FORMAT}")
-	echo -e "[${_date} | ${_BLUE}INFO${_NC}]: ${@}"
+	echo -e "[${_date} | ${_BLUE}INFO${_NC}]: ${*}"
 }
 echoOk()
 {
 	_date=$(date "${_DATE_FORMAT}")
-	echo -e "[${_date} | ${_GREEN}OK${_NC}  ]: ${@}\n"
+	echo -e "[${_date} | ${_GREEN}OK${_NC}  ]: ${*}\n"
 }
 
 
@@ -62,16 +62,15 @@ exitIfNoDocker()
 		exit 1
 	fi
 
-	docker info > /dev/null 2>&1 ||
-	if [ ${?} -ne 0 ]; then
+	if ! docker info > /dev/null 2>&1; then
 		echoError "Unable to communicate with the docker daemon. Check docker is running or check your account added to docker group."
 		exit 1
 	fi
 
-	# if [ -z "$(which docker-compose)" ]; then
-	# 	echoError "Docker compose not found or not installed."
-	# 	exit 1
-	# fi
+	if ! docker compose > /dev/null 2>&1; then
+		echoError "Docker compose not found or not installed."
+		exit 1
+	fi
 }
 
 

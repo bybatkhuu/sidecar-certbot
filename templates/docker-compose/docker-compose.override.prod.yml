@@ -5,7 +5,6 @@ version: "3.8"
 #     env_file:
 #       - .env
 #     volumes:
-#       - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
 #       - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
 #       - "./volumes/storage/certbot/secrets:/root/.aws"
 #     deploy:
@@ -17,12 +16,12 @@ version: "3.8"
 #     network_mode: bridge
 #     ports:
 #       - "80:80"
-#     command: ["--server=production", "--renew=standalone"]
 #     command: ["--server=production", "--new=webroot"]
+#     command: ["--server=production", "--renew=standalone"]
 #     command: ["--server=production", "--disable-renew"]
 #     command: ["--server=production", "--dns=cloudflare"]
+#     command: ["--server=production", "--dns=digitalocean"]
 #     command: ["--server=production", "--dns=route53"]
 #     command: ["--server=production", "--dns=google"]
 #     command: ["--server=production", "--dns=godaddy"]
-#     command: ["--server=production", "--dns=digitalocean"]
 #     command: ["/bin/bash"]
