@@ -9,8 +9,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG GID=11000
 ARG GROUP=certbot
 
-ENV GID="${GID}" \
-	GROUP="${GROUP}" \
+ENV GID=${GID} \
+	GROUP=${GROUP} \
 	PYTHONIOENCODING=utf-8
 
 WORKDIR /root
