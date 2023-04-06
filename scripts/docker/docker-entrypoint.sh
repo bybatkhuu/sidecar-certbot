@@ -160,7 +160,7 @@ main()
 
 	echo "INFO: Obtaining certificates..."
 	# shellcheck disable=SC2086
-	certbot certonly -n --agree-tos --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
+	certbot certonly -n --agree-tos --keep --expand --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
 	echo -e "SUCCESS: Done.\n"
 
 	/usr/local/bin/certbot-permissions.sh
