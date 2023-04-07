@@ -2,7 +2,7 @@
 set -euo pipefail
 
 
-echo -e "INFO: Running certbot docker-entrypoint.sh...\n"
+echo "INFO: Running certbot docker-entrypoint.sh..."
 
 # CERTBOT_EMAIL=${CERTBOT_EMAIL:-user@example.com}
 # CERTBOT_DOMAINS=${CERTBOT_DOMAINS:-example.com,*.example.com}
@@ -25,7 +25,7 @@ main()
 		mkdir -pv /var/www/.well-known/acme-challenge || exit 2
 	fi
 
-	echo -e "INFO: Setting permissions..."
+
 	/usr/local/bin/certbot-permissions.sh
 
 	if [ -d "/root/.secrets/certbot" ]; then
@@ -41,7 +41,7 @@ main()
 		find /root/.aws -type f -exec chmod -c 660 {} + || exit 2
 		find /root/.aws -type d -exec chmod -c ug+s {} + || exit 2
 	fi
-	echo -e "SUCCESS: Done.\n"
+
 
 	## Default values:
 	_certbot_new="--standalone"
@@ -159,8 +159,10 @@ main()
 	done
 
 	echo "INFO: Obtaining certificates..."
+	echo "INFO: Certbot email -> '${CERTBOT_EMAIL}'"
+	echo "INFO: Certbot server -> '${_certbot_staging:-production}'"
 	# shellcheck disable=SC2086
-	certbot certonly -n --agree-tos --keep --expand --max-log-backups 50 ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
+	certbot certonly -n --agree-tos --keep --expand --max-log-backups 10 --deploy-hook "/usr/local/bin/certbot-deploy-hook.sh" ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
 	echo -e "SUCCESS: Done.\n"
 
 	/usr/local/bin/certbot-permissions.sh
@@ -168,7 +170,7 @@ main()
 	if [ ${_disable_renew} != true ]; then
 		echo "INFO: Adding cron jobs..."
 		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
-		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 50 ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
+		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
 
 		cron || exit 2
 		echo -e "SUCCESS: Done.\n"
