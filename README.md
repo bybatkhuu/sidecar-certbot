@@ -112,7 +112,7 @@ nano .env
 
 **3.2.** Configure **`docker-compose.override.yml`** file:
 
-**IMPORTANT:** Please, check **[sidecar.certbot arguments](#arguments)**!
+**IMPORTANT:** Please, check **[arguments](#arguments)**!
 
 ```sh
 # Set environment:
@@ -214,7 +214,7 @@ You can use the following arguments to configure:
     Run only bash shell.
 ```
 
-For example as in **`docker-compose.override.yml`** file:
+For example as in [**`docker-compose.override.yml`**](templates/docker-compose/docker-compose.override.dev.yml) file:
 
 ```yml
     command: ["--server=production"]
