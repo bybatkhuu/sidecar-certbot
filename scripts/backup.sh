@@ -22,18 +22,24 @@ fi
 ## --- Variables --- ##
 # Load from envrionment variables:
 BACKUPS_DIR="${BACKUPS_DIR:-./volumes/backups}"
+VERSION_FILENAME="${VERSION_FILENAME:-version.txt}"
 ## --- Variables --- ##
 
 
 ## --- Main --- ##
 main()
 {
-	echoInfo "Creating backups of 'certbot'..."
+	echoInfo "Creating backups of 'sidecar.certbot'..."
 	if [ ! -d "${BACKUPS_DIR}" ]; then
 		mkdir -pv "${BACKUPS_DIR}" || exit 2
 	fi
 
-	tar -czpvf "${BACKUPS_DIR}/certbot.$(date -u '+%y%m%d_%H%M%S').tar.gz" -C ./volumes/storage ./certbot || exit 2
+	_old_version="0.0.0-000000"
+	if [ -n "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
+		_old_version=$(cat "${VERSION_FILENAME}") || exit 2
+	fi
+
+	tar -czpvf "${BACKUPS_DIR}/certbot.v${_old_version}.$(date -u '+%y%m%d_%H%M%S').tar.gz" -C ./volumes/storage ./certbot || exit 2
 	echoOk "Done."
 }
 
