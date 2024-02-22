@@ -1,14 +1,6 @@
 # Build and publish docker image
 
-## 1. Set image namespace
-
-```sh
-export IMG_NAMESCAPE=[IMG_NAMESPACE]
-# For example:
-export IMG_NAMESCAPE=username
-```
-
-## 2. Build and push image
+## Build and push image
 
 **A.** **[RECOMMENDED]** Run **`build.sh`** script to build images:
 
@@ -20,10 +12,10 @@ export IMG_NAMESCAPE=username
 # -u, --push-images                         Enable pushing built images to Docker Registry.
 # -c, --clean-images                        Enable clearning leftover images.
 # -x, --cross-compile                       Enable cross compiling.
-# -b=BASE_IMAGE, --base-image=BASE_IMAGE    Base image name. Default is "python:3.9.16-slim-bullseye".
-# -n=NAMESPACE, --namespace=NAMESPACE       Docker image namespace.
+# -b=BASE_IMAGE, --base-image=BASE_IMAGE    Base image name. Default is "ubuntu:22.04".
+# -g=REGISTRY, --registry=REGISTRY          Docker image registry (docker registry and username). Default is "bybatkhuu".
 # -r=REPO, --repo=REPO                      Docker image repository. Default is "certbot".
-# -v=VERSION, --version=VERSION             Docker image version. Default is "$(cat version.txt)".
+# -v=VERSION, --version=VERSION             Docker image version. Default read from "app/__version__.py" file.
 # -s=SUBTAG, --subtag=SUBTAG                Docker image subtag. Default is "".
 
 
@@ -34,7 +26,7 @@ export IMG_NAMESCAPE=username
 ./scripts/build.sh -x
 
 # Or:
-./scripts/build.sh -p=arm64 -b=python:3.9.16-slim-bullseye -n=${IMG_NAMESCAPE} -r=certbot -v=1.0.0 -s=-arm64 -u -c
+./scripts/build.sh -p=arm64 -b=ubuntu:22.04 -n=bybatkhuu -r=certbot -v=1.0.0 -s=-arm64 -u -c
 ```
 
 **B.** Or docker build command:
@@ -47,16 +39,17 @@ docker build \
     --platform [PLATFORM] \
     -t $[IMG_FULLNAME] \
     .
+
 # For example:
 docker build \
     --progress plain \
-    -t ${IMG_NAMESCAPE}/certbot:latest \
+    -t bybatkhuu/certbot:latest \
     .
 
 # Push image to Docker Registry:
 docker push [IMG_FULLNAME]
 # For example:
-docker push ${IMG_NAMESCAPE}/certbot:latest
+docker push bybatkhuu/certbot:latest
 ```
 
 **C.** Or docker buildx command (**cross-compile**):
@@ -75,13 +68,14 @@ docker buildx build \
     -t [IMG_FULLNAME] \
     --push \
     .
+
 # For example:
 docker buildx build \
     --progress plain \
     --platform linux/amd64,linux/arm64 \
-    --cache-from=type=registry,ref=${IMG_NAMESCAPE}/certbot:cache-latest \
-    --cache-to=type=registry,ref=${IMG_NAMESCAPE}/certbot:cache-latest,mode=max \
-    -t ${IMG_NAMESCAPE}/certbot:latest \
+    --cache-from=type=registry,ref=bybatkhuu/certbot:cache-latest \
+    --cache-to=type=registry,ref=bybatkhuu/certbot:cache-latest,mode=max \
+    -t bybatkhuu/certbot:latest \
     --push \
     .
 

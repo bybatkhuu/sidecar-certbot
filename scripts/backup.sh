@@ -9,7 +9,7 @@ cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
 # shellcheck disable=SC1091
-source "${_SCRIPT_DIR}/base.sh"
+source ./scripts/base.sh
 
 # Loading .env file:
 if [ -f ".env" ]; then
@@ -22,24 +22,23 @@ fi
 ## --- Variables --- ##
 # Load from envrionment variables:
 BACKUPS_DIR="${BACKUPS_DIR:-./volumes/backups}"
-VERSION_FILENAME="${VERSION_FILENAME:-version.txt}"
 ## --- Variables --- ##
 
 
 ## --- Main --- ##
 main()
 {
-	echoInfo "Creating backups of 'sidecar.certbot'..."
 	if [ ! -d "${BACKUPS_DIR}" ]; then
 		mkdir -pv "${BACKUPS_DIR}" || exit 2
 	fi
 
-	_old_version="0.0.0-000000"
-	if [ -n "${VERSION_FILENAME}" ] && [ -f "${VERSION_FILENAME}" ]; then
-		_old_version=$(cat "${VERSION_FILENAME}") || exit 2
-	fi
+	echoInfo "Checking current version..."
+	_current_version="$(./scripts/get-version.sh)"
+	echoOk "Current version: '${_current_version}'"
 
-	tar -czpvf "${BACKUPS_DIR}/certbot.v${_old_version}.$(date -u '+%y%m%d_%H%M%S').tar.gz" -C ./volumes/storage ./certbot || exit 2
+	_backup_file_path="${BACKUPS_DIR}/certbot.v${_current_version}.$(date -u '+%y%m%d_%H%M%S').tar.gz"
+	echoInfo "Creating backup file: '${_backup_file_path}'..."
+	tar -czpvf "${_backup_file_path}" -C ./volumes/storage ./certbot || exit 2
 	echoOk "Done."
 }
 

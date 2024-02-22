@@ -2,7 +2,7 @@
 set -euo pipefail
 
 
-echo "INFO: Running certbot docker-entrypoint.sh..."
+echo "INFO: Running 'certbot' docker-entrypoint.sh..."
 
 # CERTBOT_EMAIL=${CERTBOT_EMAIL:-user@example.com}
 # CERTBOT_DOMAINS=${CERTBOT_DOMAINS:-example.com,*.example.com}
@@ -148,7 +148,7 @@ main()
 					/bin/bash
 				else
 					echo "INFO: Executing command -> ${*}"
-					/bin/bash -c "${@}" || exit 2
+					exec /bin/bash -c "${@}" || exit 2
 				fi
 				exit 0;;
 			*)
@@ -157,6 +157,11 @@ main()
 				exit 1;;
 		esac
 	done
+
+	echo "INFO: Upgrading certbot..."
+	pip install --timeout 60 --no-cache-dir --upgrade certbot || exit 2
+	pip cache purge || exit 2
+	echo -e "SUCCESS: Done.\n"
 
 	echo "INFO: Obtaining certificates..."
 	echo "INFO: Certbot email -> '${CERTBOT_EMAIL}'"
@@ -175,7 +180,7 @@ main()
 		cron || exit 2
 		echo -e "SUCCESS: Done.\n"
 
-		/bin/bash
+		exec /bin/bash
 	fi
 
 	exit 0

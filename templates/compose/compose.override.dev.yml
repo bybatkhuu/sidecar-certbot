@@ -1,14 +1,13 @@
-version: "3.8"
-
 services:
   certbot:
     # env_file:
     #   - .env
     volumes:
-      - "./scripts/docker/certbot-permissions.sh:/usr/local/bin/certbot-permissions.sh"
-      - "./scripts/docker/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh"
       # - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
       # - "./volumes/storage/certbot/secrets:/root/.aws"
+      - "./scripts/docker/certbot-permissions.sh:/usr/local/bin/certbot-permissions.sh"
+      - "./scripts/docker/certbot-deploy.sh:/usr/local/bin/certbot-deploy.sh"
+      - "./scripts/docker/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh"
       - "./volumes/.vscode-server:/root/.vscode-server"
     # deploy:
     #   replicas: 0
@@ -18,7 +17,7 @@ services:
     #       memory: 256M
     # network_mode: bridge
     # ports:
-    #   - "80:80"
+    #   - "${CERTBOT_PORT:-80}:80"
     # command: ["--new=webroot"]
     # command: ["--renew=standalone"]
     # command: ["--disable-renew"]
