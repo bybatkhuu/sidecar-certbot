@@ -31,7 +31,7 @@ RUN rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 		net-tools \
 		curl \
 		nano \
-		make \
+		tini \
 		openssl \
 		cron && \
 		# libaugeas0 && \
