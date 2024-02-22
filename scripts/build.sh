@@ -9,7 +9,7 @@ cd "${_PROJECT_DIR}" || exit 2
 
 # Loading base script:
 # shellcheck disable=SC1091
-source "${_SCRIPT_DIR}/base.sh"
+source ./scripts/base.sh
 
 exitIfNoDocker
 
@@ -24,7 +24,7 @@ fi
 ## --- Variables --- ##
 # Load from envrionment variables:
 # BASE_IMAGE
-IMG_NAMESCAPE=${IMG_NAMESCAPE:-}
+IMG_REGISTRY=${IMG_REGISTRY:-bybatkhuu}
 IMG_REPO=${IMG_REPO:-certbot}
 IMG_VERSION=${IMG_VERSION:-$(cat version.txt)}
 IMG_SUBTAG=${IMG_SUBTAG:-}
@@ -38,7 +38,7 @@ _IS_PUSH_IMAGES=false
 _IS_CLEAN_IMAGES=false
 
 # Calculated variables:
-_IMG_NAME=${IMG_NAMESCAPE}/${IMG_REPO}
+_IMG_NAME=${IMG_REGISTRY}/${IMG_REPO}
 _IMG_FULLNAME=${_IMG_NAME}:${IMG_VERSION}${IMG_SUBTAG}
 _IMG_LATEST_FULLNAME=${_IMG_NAME}:latest${IMG_SUBTAG}
 ## --- Variables --- ##
@@ -52,7 +52,7 @@ _buildImages()
 	docker build \
 		${IMG_ARGS} \
 		--progress plain \
-		--platform ${IMG_PLATFORM} \
+		--platform "${IMG_PLATFORM}" \
 		-t "${_IMG_FULLNAME}" \
 		-t "${_IMG_LATEST_FULLNAME}" \
 		-t "${_IMG_FULLNAME}-${IMG_PLATFORM#linux/*}" \
@@ -75,10 +75,10 @@ _crossBuildPush()
 		${IMG_ARGS} \
 		--progress plain \
 		--platform linux/amd64,linux/arm64 \
-		--cache-from=type=registry,ref=${_IMG_NAME}:cache-latest \
-		--cache-to=type=registry,ref=${_IMG_NAME}:cache-latest,mode=max \
-		-t ${_IMG_FULLNAME} \
-		-t ${_IMG_LATEST_FULLNAME} \
+		--cache-from=type="registry,ref=${_IMG_NAME}:cache-latest" \
+		--cache-to=type="registry,ref=${_IMG_NAME}:cache-latest,mode=max" \
+		-t "${_IMG_FULLNAME}" \
+		-t "${_IMG_LATEST_FULLNAME}" \
 		--push \
 		. || exit 2
 	echoOk "Done."
@@ -140,8 +140,8 @@ main()
 				-b=* | --base-image=*)
 					BASE_IMAGE="${_input#*=}"
 					shift;;
-				-n=* | --namespace=*)
-					IMG_NAMESCAPE="${_input#*=}"
+				-g=* | --registry=*)
+					IMG_REGISTRY="${_input#*=}"
 					shift;;
 				-r=* | --repo=*)
 					IMG_REPO="${_input#*=}"
@@ -154,7 +154,7 @@ main()
 					shift;;
 				*)
 					echoError "Failed to parsing input -> ${_input}"
-					echoInfo "USAGE: ${0}  -p=*, --platform=* [amd64 | arm64] | -u, --push-images | -c, --clean-images | -x, --cross-compile | -b=*, --base-image=* | -n=*, --namespace=* | -r=*, --repo=* | -v=*, --version=* | -s=*, --subtag=*"
+					echoInfo "USAGE: ${0}  -p=*, --platform=* [amd64 | arm64] | -u, --push-images | -c, --clean-images | -x, --cross-compile | -b=*, --base-image=* | -g=*, --registry=* | -r=*, --repo=* | -v=*, --version=* | -s=*, --subtag=*"
 					exit 1;;
 			esac
 		done
@@ -162,8 +162,8 @@ main()
 	## --- Menu arguments --- ##
 
 
-	if [ -z "${IMG_NAMESCAPE:-}" ]; then
-		echoError "Required 'IMG_NAMESCAPE' environment variable or '--namespace=' argument for image namespace!"
+	if [ -z "${IMG_REGISTRY:-}" ]; then
+		echoError "Required 'IMG_REGISTRY' environment variable or '--registry=' argument for image registry!"
 		exit 1
 	fi
 
@@ -172,7 +172,7 @@ main()
 		IMG_ARGS="${IMG_ARGS} --build-arg BASE_IMAGE=${BASE_IMAGE}"
 	fi
 
-	_IMG_NAME=${IMG_NAMESCAPE}/${IMG_REPO}
+	_IMG_NAME=${IMG_REGISTRY}/${IMG_REPO}
 	_IMG_FULLNAME=${_IMG_NAME}:${IMG_VERSION}${IMG_SUBTAG}
 	_IMG_LATEST_FULLNAME=${_IMG_NAME}:latest${IMG_SUBTAG}
 

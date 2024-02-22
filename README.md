@@ -1,5 +1,11 @@
 # Sidecar Certbot
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bybatkhuu/sidecar.certbot/2.build-publish.yml?logo=GitHub)](https://github.com/bybatkhuu/sidecar.certbot/actions/workflows/2.build-publish.yml)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/bybatkhuu/sidecar.certbot?logo=GitHub)](https://github.com/bybatkhuu/sidecar.certbot/releases)
+[![Docker Image Version](https://img.shields.io/docker/v/bybatkhuu/certbot?sort=semver&logo=docker)](https://hub.docker.com/r/bybatkhuu/certbot/tags)
+[![Docker Image Size](https://img.shields.io/docker/image-size/bybatkhuu/certbot?sort=semver&logo=docker)](https://hub.docker.com/r/bybatkhuu/certbot/tags)
+
 This is a certbot docker image that can be used as a sidecar or standalone container to automatically obtain and renew TLS/SSL certificates from Let's Encrypt.
 
 ## Features
@@ -31,7 +37,7 @@ This is a certbot docker image that can be used as a sidecar or standalone conta
 
 ### 1. Prerequisites
 
-- **Server** with **public IP address**
+- Prepare **server/PC** with **public IP address**
 - Buy or register **domain name**
 - **[RECOMMENDED]** DNS provider **API token/credentials** (required for **DNS challenges** and **wildcard subdomains**):
     - Cloudflare - <https://dash.cloudflare.com/profile/api-tokens>
@@ -39,12 +45,12 @@ This is a certbot docker image that can be used as a sidecar or standalone conta
     - GoDaddy - <https://developer.godaddy.com/keys>
     - AWS Route53 - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys>
     - Google Cloud DNS - <https://cloud.google.com/docs/authentication/getting-started>
-- Install **docker** and **docker-compose** in **server** - <https://docs.docker.com/engine/install>
+- Install [**docker**](https://docs.docker.com/engine/install) and [**docker compose**](https://docs.docker.com/compose/install) in **server**
 
-For **development**:
+For **DEVELOPMENT**:
 
-- Install **git** - <https://git-scm.com/downloads>
-- Setup an **SSH key** - <https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh>
+- Install [**git**](https://git-scm.com/downloads)
+- Setup an [**SSH key**](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) ([video tutorial](https://www.youtube.com/watch?v=snCP3c7wXw0))
 
 ### 2. Download or clone the repository
 
@@ -56,51 +62,28 @@ mkdir -pv ~/workspaces/projects
 
 # Enter into projects directory:
 cd ~/workspaces/projects
-
-# Set repository owner:
-export _REPO_OWNER=[REPO_OWNER]
-# For example:
-export _REPO_OWNER=username
 ```
 
 **2.2.** Follow one of the below options **[A]** or **[B]**:
 
-**A.** Download source code from releases page:
-
-- Releases - <https://github.com/[REPO_OWNER]/sidecar.certbot/releases>
+**A.** Clone the repository:
 
 ```sh
-# Set to downloaded version:
-export _VERSION=[VERSION]
-# For example:
-export _VERSION=1.0.0
-
-# Move downloaded archive file to current projects directory:
-mv -v ~/Downloads/sidecar.certbot-${_VERSION}.zip .
-
-# Extract downloaded archive file:
-unzip sidecar.certbot-${_VERSION}.zip
-
-# Remove downloaded archive file:
-rm -v sidecar.certbot-${_VERSION}.zip
-
-# Rename extracted directory into project name:
-mv -v sidecar.certbot-${_VERSION} sidecar.certbot && cd sidecar.certbot
+git clone https://github.com/bybatkhuu/sidecar.certbot.git && \
+    cd sidecar.certbot
 ```
 
-**B.** Or clone the repository (git + ssh key):
-
-```sh
-git clone git@github.com:${_REPO_OWNER}/sidecar.certbot.git && cd sidecar.certbot
-```
+**B.** Download source code from [releases](https://github.com/bybatkhuu/sidecar.certbot/releases) page.
 
 ### 3. Configure environment
 
-**TIP:** Skip this step, if you've already configured environment.
+> [!TIP]
+> Skip this step, if you've already configured environment.
 
 **3.1.** Configure **`.env`** file:
 
-**IMPORTANT:** Please, check **[environment variables](#environment-variables)**!
+> [!IMPORTANT]
+> Please, check **[environment variables](#environment-variables)**!
 
 ```sh
 # Copy .env.example file into .env file:
@@ -110,30 +93,30 @@ cp -v .env.example .env
 nano .env
 ```
 
-**3.2.** Configure **`docker-compose.override.yml`** file:
+**3.2.** Configure **`compose.override.yml`** file:
 
-**IMPORTANT:** Please, check **[arguments](#arguments)**!
+> [!IMPORTANT]
+> Please, check **[arguments](#arguments)**!
 
 ```sh
-# Set environment:
-export _ENV=[ENV]
-# For example for development environment:
-export _ENV=dev
+# Copy 'compose.override.[ENV].yml' file to 'compose.override.yml' file:
+cp -v ./templates/compose/compose.override.[ENV].yml ./compose.override.yml
+# For example, DEVELOPMENT environment:
+cp -v ./templates/compose/compose.override.dev.yml ./compose.override.yml
+# For example, STATGING or PRODUCTION environment:
+cp -v ./templates/compose/compose.override.prod.yml ./compose.override.yml
 
-# Copy docker-compose.override.[ENV].yml into docker-compose.override.yml file:
-cp -v ./templates/docker-compose/docker-compose.override.${_ENV}.yml docker-compose.override.yml
-
-# Edit docker-compose.override.yml file to fit in your environment:
-nano docker-compose.override.yml
+# Edit 'compose.override.yml' file to fit in your environment:
+nano ./compose.override.yml
 ```
 
 **3.3.** Validate docker compose configuration:
 
-**NOTICE:** If you get an error or warning, check your configuration files (**`.env`** or **`docker-compose.override.yml`**).
+> [!WARNING]
+> If you get an error or warning, check your configuration files (**`.env`** or **`compose.override.yml`**).
 
 ```sh
-./certbot-compose.sh validate
-
+./compose.sh validate
 # Or:
 docker compose config
 ```
@@ -141,23 +124,20 @@ docker compose config
 ### 4. Run docker compose
 
 ```sh
-./certbot-compose.sh start -l
-
+./compose.sh start -l
 # Or:
-docker compose up -d && docker compose logs -f --tail 100
+docker compose up -d --remove-orphans --force-recreate && \
+    docker compose logs -f --tail 100
 ```
 
 ### 5. Check certificates
 
 ```sh
-./certbot-compose.sh certs
-
+./compose.sh certs
 # Or check certificates in container:
 docker compose exec certbot certbot certificates
-
 # Or check certificates in host:
 ls -alhF ./volumes/storage/certbot/ssl
-
 # Or check certificates in host with tree:
 tree -alFC --dirsfirst -L 5 ./volumes/storage/certbot/ssl
 ```
@@ -165,10 +145,9 @@ tree -alFC --dirsfirst -L 5 ./volumes/storage/certbot/ssl
 ### 6. Stop docker compose
 
 ```sh
-./certbot-compose.sh stop
-
+./compose.sh stop
 # Or:
-docker compose down
+docker compose down --remove-orphans
 ```
 
 :thumbsup: :sparkles:
@@ -182,9 +161,7 @@ You can use the following environment variables to configure:
 [**`.env.example`**](.env.example)
 
 ```sh
-## Docker image namespace:
-IMG_NAMESCAPE=username
-
+## --- CERTBOT configs --- ##
 ## Email address for Let's Encrypt domain registration:
 CERTBOT_EMAIL=user@email.com
 
@@ -214,7 +191,7 @@ You can use the following arguments to configure:
     Run only bash shell.
 ```
 
-For example as in [**`docker-compose.override.yml`**](templates/docker-compose/docker-compose.override.dev.yml) file:
+For example as in [**`compose.override.yml`**](templates/compose/compose.override.dev.yml) file:
 
 ```yml
     command: ["--server=production"]
@@ -235,7 +212,6 @@ For example as in [**`docker-compose.override.yml`**](templates/docker-compose/d
 
 ## Roadmap
 
-- Add GitHub action for auto-update CHANGELOG.md file.
 - Add more DNS providers.
 - Add more documentation.
 
