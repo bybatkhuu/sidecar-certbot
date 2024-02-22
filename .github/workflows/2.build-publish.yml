@@ -53,12 +53,12 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/nginx:cache-latest
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/nginx:cache-latest,mode=max
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/certbot:cache-latest
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/certbot:cache-latest,mode=max
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/nginx:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/nginx:${{ env._VERSION }}
-          #  ${{ secrets.DOCKERHUB_USERNAME }}/web.aarc.ai:${{ steps.get-version.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/certbot:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/certbot:${{ env._VERSION }}
+          #  ${{ secrets.DOCKERHUB_USERNAME }}/certbot:${{ steps.get-version.outputs.version }}
           push: true
       - name: Trigger release
         env:

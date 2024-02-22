@@ -26,7 +26,7 @@ fi
 # BASE_IMAGE
 IMG_REGISTRY=${IMG_REGISTRY:-bybatkhuu}
 IMG_REPO=${IMG_REPO:-certbot}
-IMG_VERSION=${IMG_VERSION:-$(cat version.txt)}
+IMG_VERSION=${IMG_VERSION:-$(./scripts/get-version.sh)}
 IMG_SUBTAG=${IMG_SUBTAG:-}
 IMG_PLATFORM=${IMG_PLATFORM:-$(uname -m)}
 
