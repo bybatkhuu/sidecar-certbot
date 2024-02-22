@@ -15,7 +15,7 @@ ENV GID=${GID} \
 	GROUP=${GROUP} \
 	PYTHONIOENCODING=utf-8
 
-WORKDIR /root
+WORKDIR /etc/letsencrypt
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
