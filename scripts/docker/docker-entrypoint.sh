@@ -176,11 +176,12 @@ main()
 		echo "INFO: Adding cron jobs..."
 		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
 		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
-
-		cron || exit 2
 		echo -e "SUCCESS: Done.\n"
 
-		exec /bin/bash
+		echo "INFO: Starting cron..."
+		exec tini -- cron -f || exit 2
+
+		# exec /bin/bash
 	fi
 
 	exit 0
