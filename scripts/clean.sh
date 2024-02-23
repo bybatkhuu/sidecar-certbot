@@ -60,7 +60,7 @@ main()
 	rm -rfv ./volumes/storage/certbot/logs || exit 2
 
 	if [ "${_IS_ALL}" == true ]; then
-		rm -rfv ./volumes/storage/certbot/ssl/* || exit 2
+		# rm -rfv ./volumes/storage/certbot/ssl/* || exit 2
 		rm -rfv ./volumes/backups || exit 2
 
 		docker compose down -v --remove-orphans || exit 2
