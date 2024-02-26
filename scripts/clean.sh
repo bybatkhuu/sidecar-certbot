@@ -23,6 +23,7 @@ fi
 ## --- Variables --- ##
 # Flags:
 _IS_ALL=false
+_IS_FORCE=false
 ## --- Variables --- ##
 
 
@@ -36,9 +37,12 @@ main()
 				-a | --all)
 					_IS_ALL=true
 					shift;;
+				-f | --force)
+					_IS_FORCE=true
+					shift;;
 				*)
 					echoError "Failed to parsing input -> ${_input}"
-					echoInfo "USAGE: ${0} -a, --all"
+					echoInfo "USAGE: ${0} -a, --all | -f, --force"
 					exit 1;;
 			esac
 		done
@@ -60,10 +64,12 @@ main()
 	rm -rfv ./volumes/storage/certbot/logs || exit 2
 
 	if [ "${_IS_ALL}" == true ]; then
-		# rm -rfv ./volumes/storage/certbot/ssl/* || exit 2
 		rm -rfv ./volumes/backups || exit 2
-
 		docker compose down -v --remove-orphans || exit 2
+
+		if [ "${_IS_FORCE}" == true ]; then
+			rm -rfv ./volumes/storage/certbot/ssl/* || exit 2
+		fi
 	fi
 
 	echoOk "Done."

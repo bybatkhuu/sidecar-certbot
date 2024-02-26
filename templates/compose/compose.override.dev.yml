@@ -5,6 +5,7 @@ services:
     volumes:
       # - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
       # - "./volumes/storage/certbot/secrets:/root/.aws"
+      # - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
       - "./scripts/docker/certbot-permissions.sh:/usr/local/bin/certbot-permissions.sh"
       - "./scripts/docker/certbot-deploy-hook.sh:/usr/local/bin/certbot-deploy-hook.sh"
       - "./scripts/docker/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh"
