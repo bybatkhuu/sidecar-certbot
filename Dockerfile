@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG BASE_IMAGE=python:3.9.18-slim-bookworm
+ARG BASE_IMAGE=python:3.13.3-slim-bookworm
 
 
 # Here is the production image
