@@ -1,6 +1,6 @@
 services:
   certbot:
-    image: ${IMG_REGISTRY:-bybatkhuu}/certbot:latest
+    image: bybatkhuu/certbot:latest
     build:
       context: .
     restart: unless-stopped
@@ -10,9 +10,12 @@ services:
       - CERTBOT_EMAIL=${CERTBOT_EMAIL}
       - CERTBOT_DOMAINS=${CERTBOT_DOMAINS}
       - CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
+    env_file:
+      - path: .env
+        required: false
     volumes:
       - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
       - "./volumes/storage/certbot/ssl:/etc/letsencrypt"
     network_mode: host
-    tty: true
     command: ["--renew=standalone"]
+    tty: true
