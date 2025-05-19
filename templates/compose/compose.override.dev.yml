@@ -1,7 +1,5 @@
 services:
   certbot:
-    # env_file:
-    #   - .env
     volumes:
       # - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
       # - "./volumes/storage/certbot/secrets:/root/.aws"

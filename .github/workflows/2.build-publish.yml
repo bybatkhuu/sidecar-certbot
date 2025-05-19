@@ -2,14 +2,17 @@ name: 2. Build and Publish
 
 on:
   workflow_run:
-    branches:
-      - main
     workflows: ["1. Bump Version"]
     types:
       - completed
+    branches:
+      - main
   push:
     tags:
       - "v*.*.*-*"
+
+env:
+  _VERSION: 0.0.0-250101
 
 jobs:
   build_publish:
@@ -21,10 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # - name: Lint dockerfile
-      #   uses: hadolint/hadolint-action@v3.1.0
-      #   with:
-      #     dockerfile: Dockerfile
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up docker buildx
@@ -35,32 +34,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Get version
-        # id: get-version
-        # run: echo "version=$(./scripts/get-version.sh)" >> ${GITHUB_OUTPUT}
-        # run: echo "::set-output name=version::$(./scripts/get-version.sh)"
         run: echo "_VERSION=$(./scripts/get-version.sh)" >> ${GITHUB_ENV}
-      # - name: Build and export
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     load: true
-      #     cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/certbot:cache-latest
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/certbot:test
-      # - name: Test docker image
-      #   run: docker run --rm -e CERTBOT_EMAIL=test@email.com -e CERTBOT_DOMAINS=example.com ${{ secrets.DOCKERHUB_USERNAME }}/certbot:test /bin/bash "certbot --version"
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
+          # platforms: linux/amd64
           platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/certbot:cache-latest
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/certbot:cache-latest,mode=max
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/certbot:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/certbot:${{ env._VERSION }}
-          #  ${{ secrets.DOCKERHUB_USERNAME }}/certbot:${{ steps.get-version.outputs.version }}
           push: true
       - name: Trigger release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run 3.create-release.yml -r v$(./scripts/get-version.sh)
+        run: gh workflow run 3.create-release.yml

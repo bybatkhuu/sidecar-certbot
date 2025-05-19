@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG BASE_IMAGE=python:3.9.18-slim-bookworm
+ARG BASE_IMAGE=python:3.10.17-slim-bookworm
 
 
 # Here is the production image
@@ -28,7 +28,7 @@ RUN rm -rfv /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /root/.cache/*
 		tzdata \
 		procps \
 		iputils-ping \
-		net-tools \
+		iproute2 \
 		curl \
 		nano \
 		tini \
@@ -63,7 +63,7 @@ ENV	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=en_US.UTF-8
 
-COPY --chown=root:root --chmod=ug+x ./scripts/docker/*.sh /usr/local/bin/
+COPY --chown=root:root --chmod=770 ./scripts/docker/*.sh /usr/local/bin/
 
 VOLUME ["/etc/letsencrypt"]
 
