@@ -50,7 +50,7 @@ This is a certbot docker image that can be used as a sidecar or standalone conta
         - API keys - <https://developer.godaddy.com/keys>
         - certbot-dns-godaddy - <https://github.com/miigotu/certbot-dns-godaddy>
     - AWS Route53:
-        - AWS access keys - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys>
+        - AWS access keys - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
         - certbot-dns-route53 - <https://certbot-dns-route53.readthedocs.io/en/stable>
     - Google Cloud DNS:
         - GCP credentials/service accounts - <https://cloud.google.com/iam/docs/service-accounts-create>
