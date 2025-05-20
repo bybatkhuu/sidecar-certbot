@@ -179,7 +179,7 @@ main()
 					CONTEXT_PATH="${_input#*=}"
 					shift;;
 				*)
-					echo "[OK]: Failed to parsing input -> ${_input}"
+					echo "[OK]: Failed to parse input -> ${_input}"
 					echo "[INFO]: USAGE: ${0}  -p=*, --platform=* [amd64 | arm64] | -u, --push-images | -c, --clean-images | -x, --cross-compile | -b=*, --base-image=* | -g=*, --registry=* | -r=*, --repo=* | -v=*, --version=* | -s=*, --subtag=* | -d=*, --dockerfile=* | -t=*, --context-path=*"
 					exit 1;;
 			esac

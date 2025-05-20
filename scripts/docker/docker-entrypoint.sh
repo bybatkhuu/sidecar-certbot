@@ -152,7 +152,7 @@ main()
 				fi
 				exit 0;;
 			*)
-				echo "ERROR: Failed to parsing input -> ${*}"
+				echo "ERROR: Failed to parse input -> ${*}"
 				echo "USAGE: ${0} -s=*, --server=* [staging | production] | -n=*, --new=* [standalone | webroot] | -r=*, --renew=* [standalone | webroot] | -d=*, --dns=* [cloudflare | digitalocean | google | route53 | godaddy] | -D, --disable-renew | -b, --bash, bash, /bin/bash"
 				exit 1;;
 		esac
