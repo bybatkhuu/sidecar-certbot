@@ -26,8 +26,8 @@ fi
 # Load from envrionment variables:
 VERSION_FILE_PATH="${VERSION_FILE_PATH:-VERSION.txt}"
 COMPOSE_FILE_PATH="${COMPOSE_FILE_PATH:-templates/compose/compose.override.prod.yml}"
-SERVICE_NAME="${SERVICE_NAME:-nginx}"
-IMG_NAME="${IMG_NAME:-bybatkhuu/nginx}"
+SERVICE_NAME="${SERVICE_NAME:-certbot}"
+IMG_NAME="${IMG_NAME:-bybatkhuu/certbot}"
 
 # Flags:
 _IS_ADD=false
