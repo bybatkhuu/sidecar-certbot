@@ -1,6 +1,6 @@
 services:
   certbot:
-    image: bybatkhuu/certbot:3.0.0-250519
+    image: bybatkhuu/certbot:3.0.1-250526
     # volumes:
     #   - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
     #   - "./volumes/storage/certbot/secrets:/root/.aws"
@@ -23,5 +23,3 @@ services:
     # command: ["--server=production", "--dns=google"]
     # command: ["--server=production", "--dns=godaddy"]
     # command: ["/bin/bash"]
-  nginx:
-    image: bybatkhuu/nginx:3.0.1-250526
