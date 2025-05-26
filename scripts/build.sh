@@ -16,17 +16,17 @@ fi
 
 
 if [ -z "$(which docker)" ]; then
-	echo "[OK]: 'docker' not found or not installed."
+	echo "[ERROR]: 'docker' not found or not installed."
 	exit 1
 fi
 
 if ! docker info > /dev/null 2>&1; then
-	echo "[OK]: Unable to communicate with the docker daemon. Check docker is running or check your account added to docker group."
+	echo "[ERROR]: Unable to communicate with the docker daemon. Check docker is running or check your account added to docker group."
 	exit 1
 fi
 
 if ! docker compose > /dev/null 2>&1; then
-	echo "[OK]: 'docker compose' not found or not installed."
+	echo "[ERROR]: 'docker compose' not found or not installed."
 	exit 1
 fi
 ## --- Base --- ##
@@ -179,7 +179,7 @@ main()
 					CONTEXT_PATH="${_input#*=}"
 					shift;;
 				*)
-					echo "[OK]: Failed to parse input -> ${_input}"
+					echo "[ERROR]: Failed to parse input -> ${_input}"
 					echo "[INFO]: USAGE: ${0}  -p=*, --platform=* [amd64 | arm64] | -u, --push-images | -c, --clean-images | -x, --cross-compile | -b=*, --base-image=* | -g=*, --registry=* | -r=*, --repo=* | -v=*, --version=* | -s=*, --subtag=* | -d=*, --dockerfile=* | -t=*, --context-path=*"
 					exit 1;;
 			esac
@@ -189,7 +189,7 @@ main()
 
 
 	# if [ -z "${IMG_REGISTRY:-}" ]; then
-	# 	echo "[OK]: Required 'IMG_REGISTRY' environment variable or '--registry=' argument for image registry!"
+	# 	echo "[ERROR]: Required 'IMG_REGISTRY' environment variable or '--registry=' argument for image registry!"
 	# 	exit 1
 	# fi
 
@@ -211,7 +211,7 @@ main()
 	elif [ "${IMG_PLATFORM}" = "aarch64" ] || [ "${IMG_PLATFORM}" = "arm64" ] || [ "${IMG_PLATFORM}" = "linux/arm64" ]; then
 		IMG_PLATFORM="linux/arm64"
 	else
-		echo "[OK]: Unsupported platform: ${IMG_PLATFORM}"
+		echo "[ERROR]: Unsupported platform: ${IMG_PLATFORM}"
 		exit 2
 	fi
 	## --- Init arguments --- ##
