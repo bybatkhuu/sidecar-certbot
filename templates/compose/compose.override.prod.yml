@@ -23,3 +23,5 @@ services:
     # command: ["--server=production", "--dns=google"]
     # command: ["--server=production", "--dns=godaddy"]
     # command: ["/bin/bash"]
+  nginx:
+    image: bybatkhuu/nginx:3.0.1-250526
