@@ -131,7 +131,7 @@ main()
 				_pip_dns="certbot-dns-${_dns}"
 				if [ "${_dns}" != "cloudflare" ]; then
 					echo "[INFO]: Installing certbot DNS plugin -> ${_dns}..."
-					pip install --timeout 60 --no-cache-dir "${_pip_dns}" || exit 2
+					pip install --timeout 60 --no-cache-dir --root-user-action ignore "${_pip_dns}" || exit 2
 					pip cache purge || exit 2
 					echo -e "[OK]: Done.\n"
 				fi
@@ -159,7 +159,7 @@ main()
 	done
 
 	echo "[INFO]: Upgrading certbot..."
-	pip install --timeout 60 --no-cache-dir --upgrade certbot || exit 2
+	pip install --timeout 60 --no-cache-dir --root-user-action ignore --upgrade certbot || exit 2
 	pip cache purge || exit 2
 	echo -e "[OK]: Done.\n"
 
@@ -174,7 +174,7 @@ main()
 
 	if [ ${_disable_renew} != true ]; then
 		echo "[INFO]: Adding cron jobs..."
-		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
+		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --root-user-action ignore --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
 		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
 		echo -e "[OK]: Done.\n"
 
