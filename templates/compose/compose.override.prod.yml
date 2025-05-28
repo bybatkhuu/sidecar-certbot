@@ -1,6 +1,6 @@
 services:
   certbot:
-    image: bybatkhuu/certbot:3.0.1-250526
+    image: bybatkhuu/certbot:3.0.2-250528
     # volumes:
     #   - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
     #   - "./volumes/storage/certbot/secrets:/root/.aws"
