@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.0.2-250528 (2025-05-28)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.0.2-250528 -->
+
+## What's Changed
+### 🐛 Fixes
+* :hammer: Add --root-user-action ignore to pip install commands in doc… by @bybatkhuu in https://github.com/bybatkhuu/sidecar.certbot/pull/56
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar.certbot/compare/v3.0.1-250526...v3.0.2-250528
+
 ## v3.0.1-250526 (2025-05-26)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.0.1-250526 -->
