@@ -1,4 +1,4 @@
-.PHONY: help validate start logs stop compose clean get-version bump-version build backup docs changelog
+.PHONY: help validate start logs stop compose clean get-version bump-version build release changelog docs backup
 
 help:
 	@echo "make help         -- show this help"
@@ -11,9 +11,10 @@ help:
 	@echo "make get-version  -- get current version"
 	@echo "make bump-version -- bump version"
 	@echo "make build        -- build docker image"
-	@echo "make backup       -- backup storage data"
-	@echo "make docs         -- generate documentation"
+	@echo "make release      -- release new version"
 	@echo "make changelog    -- update changelog"
+	@echo "make docs         -- generate documentation"
+	@echo "make backup       -- backup storage data"
 
 
 validate:
@@ -26,7 +27,7 @@ logs:
 	./compose.sh logs
 
 stop:
-	./compose.sh down
+	./compose.sh stop
 
 compose:
 	./compose.sh $(MAKEFLAGS)
@@ -43,11 +44,14 @@ bump-version:
 build:
 	./scripts/build.sh $(MAKEFLAGS)
 
-backup:
-	./scripts/backup.sh
+release:
+	./scripts/release.sh
+
+changelog:
+	./scripts/changelog.sh $(MAKEFLAGS)
 
 docs:
 	./scripts/docs.sh $(MAKEFLAGS)
 
-changelog:
-	./scripts/changelog.sh $(MAKEFLAGS)
+backup:
+	./scripts/backup.sh
