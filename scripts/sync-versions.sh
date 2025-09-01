@@ -8,6 +8,7 @@ _SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 _PROJECT_DIR="$(cd "${_SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)"
 cd "${_PROJECT_DIR}" || exit 2
 
+
 # Loading .env file (if exists):
 if [ -f ".env" ]; then
 	# shellcheck disable=SC1091
@@ -45,7 +46,7 @@ main()
 					_IS_ADD=true
 					shift;;
 				*)
-					echo "[ERROR]: Failed to parse input -> ${_input}"
+					echo "[ERROR]: Failed to parse input -> ${_input}!"
 					echo "[INFO]: USAGE: ${0}  -a, --git-add"
 					exit 1;;
 			esac
@@ -55,12 +56,12 @@ main()
 
 
 	if [ ! -f "${VERSION_FILE_PATH:-}" ]; then
-		echo "[ERROR]: Not found version file: ${VERSION_FILE_PATH}"
+		echo "[ERROR]: Not found version file: ${VERSION_FILE_PATH}!"
 		exit 1
 	fi
 
 	if [ ! -f "${COMPOSE_FILE_PATH:-}" ]; then
-		echo "[ERROR]: Not found compose file: ${COMPOSE_FILE_PATH}"
+		echo "[ERROR]: Not found compose file: ${COMPOSE_FILE_PATH}!"
 		exit 1
 	fi
 

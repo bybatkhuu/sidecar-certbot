@@ -12,12 +12,12 @@ CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
 main()
 {
 	if [ -z "${CERTBOT_EMAIL}" ]; then
-		echo "[ERROR]: 'CERTBOT_EMAIL' environment variable is not set."
+		echo "[ERROR]: 'CERTBOT_EMAIL' environment variable is not set!"
 		exit 1
 	fi
 
 	if [ -z "${CERTBOT_DOMAINS}" ]; then
-		echo "[ERROR]: 'CERTBOT_DOMAINS' environment variable is not set."
+		echo "[ERROR]: 'CERTBOT_DOMAINS' environment variable is not set!"
 		exit 1
 	fi
 
@@ -64,7 +64,7 @@ main()
 				elif [ "${_server}" = "staging" ]; then
 					_certbot_staging="--staging"
 				else
-					echo "[ERROR]: Invalid server '${_server}'."
+					echo "[ERROR]: Invalid server '${_server}'!"
 					exit 1
 				fi
 				shift;;
@@ -92,7 +92,7 @@ main()
 				if [ "${_dns}" = "route53" ]; then
 					if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
 						if [ ! -f "/root/.aws/config" ]; then
-							echo "[ERROR]: '/root/.aws/config' file is not found."
+							echo "[ERROR]: '/root/.aws/config' file is not found!"
 							exit 1
 						fi
 					fi
@@ -101,7 +101,7 @@ main()
 
 				elif [ "${_dns}" = "godaddy" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
-						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.ini' file is not found."
+						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.ini' file is not found!"
 						exit 1
 					fi
 					_certbot_new="--authenticator dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
@@ -109,7 +109,7 @@ main()
 
 				elif [ "${_dns}" = "google" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.json" ]; then
-						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.json' file is not found."
+						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.json' file is not found!"
 						exit 1
 					fi
 					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.json --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
@@ -117,14 +117,14 @@ main()
 
 				elif [ "${_dns}" = "cloudflare" ] || [ "${_dns}" = "digitalocean" ]; then
 					if [ ! -f "/root/.secrets/certbot/${_dns}.ini" ]; then
-						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.ini' file is not found."
+						echo "[ERROR]: '/root/.secrets/certbot/${_dns}.ini' file is not found!"
 						exit 1
 					fi
 					_certbot_new="--dns-${_dns} --dns-${_dns}-credentials /root/.secrets/certbot/${_dns}.ini --dns-${_dns}-propagation-seconds ${CERTBOT_DNS_TIMEOUT}"
 					_certbot_renew="${_certbot_new}"
 
 				else
-					echo "[ERROR]: Unsupported DNS plugin -> ${_dns}"
+					echo "[ERROR]: Unsupported DNS plugin -> ${_dns}!"
 					exit 1
 				fi
 
@@ -152,7 +152,7 @@ main()
 				fi
 				exit 0;;
 			*)
-				echo "[ERROR]: Failed to parse input -> ${*}"
+				echo "[ERROR]: Failed to parse input -> ${*}!"
 				echo "[INFO]: USAGE: ${0} -s=*, --server=* [staging | production] | -n=*, --new=* [standalone | webroot] | -r=*, --renew=* [standalone | webroot] | -d=*, --dns=* [cloudflare | digitalocean | google | route53 | godaddy] | -D, --disable-renew | -b, --bash, bash, /bin/bash"
 				exit 1;;
 		esac
