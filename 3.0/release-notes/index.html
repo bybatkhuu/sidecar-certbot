@@ -24,7 +24,7 @@
     
     
       
-        <title>Release notes - Sidecar Certbot</title>
+        <title>Release Notes - Sidecar Certbot</title>
       
     
     
@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#release-notes" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -109,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Release notes
+              Release Notes
             
           </span>
         </div>
@@ -297,7 +302,7 @@
   
     
   
-  Release notes
+  Release Notes
 
       </a>
     </li>
@@ -334,7 +339,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -447,18 +454,85 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    Release notes
+    Release Notes
     
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#v303-250901-2025-09-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      v3.0.3-250901 (2025-09-01)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's Changed
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What&#39;s Changed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      👷 CI/CD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -494,6 +568,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -503,6 +579,49 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#v303-250901-2025-09-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      v3.0.3-250901 (2025-09-01)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's Changed
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What&#39;s Changed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      👷 CI/CD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -515,13 +634,25 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
   
   
 
 
-  <h1>Release notes</h1>
+<h1 id="release-notes">📌 Release Notes</h1>
+<h2 id="v303-250901-2025-09-01">v3.0.3-250901 (2025-09-01)</h2>
+<!-- Release notes generated using configuration in .github/release.yml at v3.0.3-250901 -->
+
+<h2 id="whats-changed">What's Changed</h2>
+<h3 id="cicd">👷 CI/CD</h3>
+<ul>
+<li><img alt="🔨" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f528.svg" title=":hammer:" /><img alt="💚" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f49a.svg" title=":green_heart:" /> Refactor workflows to streamline version bumpin… by @bybatkhuu in https://github.com/bybatkhuu/sidecar.certbot/pull/58</li>
+<li><img alt="🔨" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f528.svg" title=":hammer:" /> Add CODEOWNERS and Dependabot configuration by @bybatkhuu in https://github.com/bybatkhuu/sidecar.certbot/pull/61</li>
+</ul>
+<p><strong>Full Changelog</strong>: https://github.com/bybatkhuu/sidecar.certbot/compare/v3.0.2-250528...v3.0.3-250901</p>
 
 
 
@@ -529,10 +660,13 @@
 
 
 
+  
+  
 
 
 
 
+  
 
 
 
@@ -555,6 +689,8 @@
         <footer class="md-footer">
   
     
+      
+        
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
