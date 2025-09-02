@@ -14,6 +14,7 @@ if [ -f ".env" ]; then
 	source .env
 fi
 
+
 # Checking docker and docker-compose installed:
 if [ -z "$(which docker)" ]; then
 	echo "[ERROR]: 'docker' not found or not installed!"
