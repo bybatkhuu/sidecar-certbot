@@ -115,8 +115,8 @@ nano .env
 
 You can use below template **`compose.override.yml`** files for different environments:
 
-- **DEVELOPMENT**: [**`compose.override.dev.yml`**](https://github.com/bybatkhuu/sidecar.certbot/blob/main/templates/compose/compose.override.dev.yml)
-- **PRODUCTION/STAGING**: [**`compose.override.prod.yml`**](https://github.com/bybatkhuu/sidecar.certbot/blob/main/templates/compose/compose.override.prod.yml)
+- **DEVELOPMENT**: [**`compose.override.dev.yml`**](./templates/compose/compose.override.dev.yml)
+- **PRODUCTION/STAGING**: [**`compose.override.prod.yml`**](./templates/compose/compose.override.prod.yml)
 
 ```sh
 # Copy 'compose.override.[ENV].yml' file to 'compose.override.yml' file:
@@ -184,7 +184,7 @@ docker compose down --remove-orphans
 
 You can use the following environment variables to configure:
 
-[**`.env.example`**](https://github.com/bybatkhuu/sidecar.certbot/blob/main/.env.example):
+[**`.env.example`**](./.env.example):
 
 ```sh
 ## --- CERTBOT configs --- ##
@@ -221,7 +221,7 @@ You can use the following arguments to configure:
     Run only bash shell.
 ```
 
-For example as in [**`compose.override.yml`**](https://github.com/bybatkhuu/sidecar.certbot/blob/main/templates/compose/compose.override.dev.yml) file:
+For example as in [**`compose.override.yml`**](./templates/compose/compose.override.dev.yml) file:
 
 ```yml
     command: ["--server=production"]
@@ -239,8 +239,8 @@ For example as in [**`compose.override.yml`**](https://github.com/bybatkhuu/side
 
 ## 📚 Documentation
 
-- [Build docker image](docs/docker-build.md)
-- [Certbot examples](docs/certbot-examples.md)
+- [Build docker image](./docs/docker-build.md)
+- [Certbot examples](./docs/certbot-examples.md)
 
 ### 🛤 Roadmap
 
