@@ -10,11 +10,10 @@ exclude: |
     | env/
     | site-packages/
     | node_modules/
+    | volumes/
     | logs/
     | data/
     | datasets/
-    | output/
-    | outputs/
   )$
 
 repos:
