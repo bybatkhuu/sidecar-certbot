@@ -1,11 +1,11 @@
 name: 3. Create Release
 
 on:
+  workflow_dispatch:
   # workflow_run:
   #   workflows: ["2. Build and Publish"]
   #   types:
   #     - completed
-  workflow_dispatch:
 
 env:
   _WORKFLOW_STATE: active
