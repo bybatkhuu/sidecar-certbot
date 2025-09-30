@@ -19,7 +19,7 @@ fi
 
 ## --- Variables --- ##
 # Load from envrionment variables:
-PROJECT_SLUG="${PROJECT_SLUG:-sidecar.certbot}"
+PROJECT_SLUG="${PROJECT_SLUG:-sidecar-certbot}"
 BACKUPS_DIR="${BACKUPS_DIR:-./volumes/backups}"
 ## --- Variables --- ##
 

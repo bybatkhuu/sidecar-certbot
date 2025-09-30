@@ -1,8 +1,8 @@
 site_name: Sidecar Certbot
 site_description: "This is a certbot docker image that can be used as a sidecar or standalone container to automatically obtain and renew TLS/SSL certificates from Let's Encrypt."
 site_url: https://certbot-docs.bybatkhuu.dev
-repo_name: bybatkhuu/sidecar.certbot
-repo_url: https://github.com/bybatkhuu/sidecar.certbot
+repo_name: bybatkhuu/sidecar-certbot
+repo_url: https://github.com/bybatkhuu/sidecar-certbot
 theme:
   name: material
   # name: readthedocs

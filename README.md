@@ -1,8 +1,8 @@
 # Sidecar Certbot
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bybatkhuu/sidecar.certbot/2.build-publish.yml?logo=GitHub)](https://github.com/bybatkhuu/sidecar.certbot/actions/workflows/2.build-publish.yml)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/bybatkhuu/sidecar.certbot?logo=GitHub)](https://github.com/bybatkhuu/sidecar.certbot/releases)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bybatkhuu/sidecar-certbot/2.build-publish.yml?logo=GitHub)](https://github.com/bybatkhuu/sidecar-certbot/actions/workflows/2.build-publish.yml)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/bybatkhuu/sidecar-certbot?logo=GitHub)](https://github.com/bybatkhuu/sidecar-certbot/releases)
 [![Docker Image Version](https://img.shields.io/docker/v/bybatkhuu/certbot?sort=semver&logo=docker)](https://hub.docker.com/r/bybatkhuu/certbot/tags)
 [![Docker Image Size](https://img.shields.io/docker/image-size/bybatkhuu/certbot?sort=semver&logo=docker)](https://hub.docker.com/r/bybatkhuu/certbot/tags)
 
@@ -80,18 +80,18 @@ cd ~/workspaces/projects
 **A.** Clone the repository:
 
 ```sh
-git clone https://github.com/bybatkhuu/sidecar.certbot.git && \
-    cd sidecar.certbot
+git clone https://github.com/bybatkhuu/sidecar-certbot.git && \
+    cd sidecar-certbot
 ```
 
 **OPTION B.** Clone the repository (for **DEVELOPMENT**: git + ssh key):
 
 ```sh
-git clone git@github.com:bybatkhuu/sidecar.certbot.git && \
-    cd sidecar.certbot
+git clone git@github.com:bybatkhuu/sidecar-certbot.git && \
+    cd sidecar-certbot
 ```
 
-**OPTION C.** Download source code from **[releases](https://github.com/bybatkhuu/sidecar.certbot/releases)** page.
+**OPTION C.** Download source code from **[releases](https://github.com/bybatkhuu/sidecar-certbot/releases)** page.
 
 ### 3. 🛠 Configure the environment
 
@@ -145,7 +145,7 @@ docker compose config
 **[CAUTION]**:
 
 - If ports are conflicting, you should change ports from [**3. step**](#3--configure-the-environment).
-- If container names are conflicting, you should change project directory name (from **`sidecar.certbot`** to something else, e.g: `prod.sidecar.certbot`) from [**2.2. step**](#2--download-or-clone-the-repository).
+- If container names are conflicting, you should change project directory name (from **`sidecar-certbot`** to something else, e.g: `prod.sidecar-certbot`) from [**2.2. step**](#2--download-or-clone-the-repository).
 
 ```sh
 ./compose.sh start -l
