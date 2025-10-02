@@ -221,7 +221,7 @@ main()
 		clean | clear)
 			shift
 			_doClean "${@:-}";;
-		update)
+		update | pull)
 			shift
 			_doUpdate "${@:-}";;
 		*)
