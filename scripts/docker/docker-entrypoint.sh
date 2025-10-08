@@ -44,14 +44,15 @@ main()
 
 
 	## Default values:
-	_certbot_new="--standalone"
-	_certbot_renew="--webroot -w /var/www"
-	_certbot_staging="--staging"
-	_disable_renew=false
+	local _certbot_new="--standalone"
+	local _certbot_renew="--webroot -w /var/www"
+	local _certbot_staging="--staging"
+	local _disable_renew=false
 
-	_pip_dns=""
+	local _pip_dns=""
 
 	## Parsing input:
+	local _input
 	for _input in "${@:-}"; do
 		case ${_input} in
 			"")
