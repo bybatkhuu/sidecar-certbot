@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.1.1-251025 (2025-10-25)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.1-251025 -->
+
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.0-251025...v3.1.1-251025
+
 ## v3.1.0-251025 (2025-10-25)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.0-251025 -->
