@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.1.0-251025 (2025-10-25)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.0-251025 -->
+
+## What's Changed
+### ✨ Features
+* feat: update UID and GID handling in Dockerfile and entrypoint script… by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/63
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.0.4-251008...v3.1.0-251025
+
 ## v3.0.4-251008 (2025-10-08)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.0.4-251008 -->
