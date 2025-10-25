@@ -9,9 +9,9 @@ FROM ${BASE_IMAGE}
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG UID=1000
-ARG USER=certbot
+ARG USER=certbot-user
 ARG GID=11000
-ARG GROUP=certbot
+ARG GROUP=certbot-group
 
 ENV UID=${UID} \
 	USER=${USER} \
