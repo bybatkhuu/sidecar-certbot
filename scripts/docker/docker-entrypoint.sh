@@ -4,6 +4,9 @@ set -euo pipefail
 
 echo "[INFO]: Running 'certbot' docker-entrypoint.sh..."
 
+UID=${UID:-1000}
+GID=${GID:-11000}
+
 # CERTBOT_EMAIL=${CERTBOT_EMAIL:-user@example.com}
 # CERTBOT_DOMAINS=${CERTBOT_DOMAINS:-example.com,*.example.com}
 CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
@@ -29,14 +32,14 @@ main()
 	/usr/local/bin/certbot-permissions.sh
 
 	if [ -d "/root/.secrets/certbot" ]; then
-		chown -Rc "1000:${GROUP}" /root/.secrets/certbot || exit 2
+		chown -Rc "${UID}:${GID}" /root/.secrets/certbot || exit 2
 		find /root/.secrets/certbot -type d -exec chmod -c 770 {} + || exit 2
 		find /root/.secrets/certbot -type f -exec chmod -c 660 {} + || exit 2
 		find /root/.secrets/certbot -type d -exec chmod -c ug+s {} + || exit 2
 	fi
 
 	if [ -d "/root/.aws" ]; then
-		chown -Rc "1000:${GROUP}" /root/.aws || exit 2
+		chown -Rc "${UID}:${GID}" /root/.aws || exit 2
 		find /root/.aws -type d -exec chmod -c 770 {} + || exit 2
 		find /root/.aws -type f -exec chmod -c 660 {} + || exit 2
 		find /root/.aws -type d -exec chmod -c ug+s {} + || exit 2
