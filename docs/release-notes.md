@@ -6,6 +6,28 @@ hide:
 
 # 📌 Release Notes
 
+## v3.1.2-260518 (2026-05-18)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.2-260518 -->
+
+## What's Changed
+### 💥 Breaking Changes
+* ⬆️ Bump docker/setup-buildx-action from 3 to 4 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/72
+* ⬆️ Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/71
+* ⬆️ Bump docker/login-action from 3 to 4 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/70
+* ⬆️ Bump docker/setup-qemu-action from 3 to 4 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/69
+* ⬆️ Bump docker/build-push-action from 6 to 7 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/68
+* ⬆️ Bump actions/setup-python from 5 to 6 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/67
+### ✨ Features
+* ⬆️ Bump https://github.com/gitleaks/gitleaks from v8.28.0 to 8.30.1 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/73
+### 🐛 Fixes
+* fix: update base image to python:3.14.5-slim-trixie in Dockerfile by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/74
+
+## New Contributors
+* @dependabot[bot] made their first contribution in https://github.com/bybatkhuu/sidecar-certbot/pull/72
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.1-251025...v3.1.2-260518
+
 ## v3.1.1-251025 (2025-10-25)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.1-251025 -->
