@@ -6,6 +6,20 @@ hide:
 
 # 📌 Release Notes
 
+## v3.1.3-260801 (2026-08-01)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.3-260801 -->
+
+## What's Changed
+### 💥 Breaking Changes
+* ⬆️ Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/75
+* ⬆️ Bump actions/setup-python from 6 to 7 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/76
+### 👷 CI/CD
+* Upgrade actions/checkout and actions/setup-python to version 7 by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/77
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.2-260518...v3.1.3-260801
+
 ## v3.1.2-260518 (2026-05-18)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.2-260518 -->
