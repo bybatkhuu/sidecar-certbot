@@ -2,8 +2,8 @@ services:
   certbot:
     image: bybatkhuu/certbot:3.1.3-260801
     # volumes:
-    #   - "./volumes/storage/certbot/secrets:/root/.secrets/certbot"
-    #   - "./volumes/storage/certbot/secrets:/root/.aws"
+    #   - "./volumes/secrets/certbot:/root/.secrets/certbot"
+    #   - "./volumes/secrets/certbot:/root/.aws"
     #   - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
     # deploy:
     #   replicas: 0
