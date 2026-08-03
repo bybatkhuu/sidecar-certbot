@@ -187,6 +187,8 @@ You can use the following environment variables to configure:
 [**`.env.example`**](./.env.example):
 
 ```sh
+# TZ=UTC
+
 ## --- CERTBOT configs --- ##
 ## Email address for Let's Encrypt domain registration:
 CERTBOT_EMAIL=user@email.com
