@@ -103,10 +103,10 @@ git clone git@github.com:bybatkhuu/sidecar-certbot.git && \
 
 ```sh
 # Copy .env.example file into .env file:
-cp -v .env.example .env
+cp -v ./.env.example ./.env
 
 # Edit environment variables to fit in your environment:
-nano .env
+nano ./.env
 ```
 
 #### 3.2. 🎺 Configure **`compose.override.yml`** file
@@ -140,7 +140,20 @@ nano ./compose.override.yml
 docker compose config
 ```
 
-### 4. 🚀 Start docker compose
+### 4. 🤖 Configure Certbot
+
+For **DNS challenges** you need to configure **API token/credentials** for your DNS provider:
+
+```sh
+# For example, for Cloudflare DNS provider:
+# Copy template config file into credentials directory:
+cp -v ./templates/certbot/cloudflare.ini ./volumes/secrets/certbot/credentials/cloudflare.ini
+
+# Edit the credential file to add DNS provider API token:
+nano ./volumes/secrets/certbot/credentials/cloudflare.ini
+```
+
+### 5. 🚀 Start docker compose
 
 **[CAUTION]**:
 
@@ -154,7 +167,7 @@ docker compose up -d --remove-orphans --force-recreate && \
     docker compose logs -f --tail 100
 ```
 
-### 5. 🔐 Check certificates
+### 6. 🔐 Check certificates
 
 ```sh
 ./compose.sh certs
