@@ -1,10 +1,21 @@
 ---
-title: Release Notes
+title: "Release Notes"
 hide:
   - navigation
 ---
 
 # 📌 Release Notes
+
+## v3.1.4-260804 (2026-08-04)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.4-260804 -->
+
+## What's Changed
+### 🔨 Scripts
+* Refactor scripts for improved error handling and usability by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/78
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.3-260801...v3.1.4-260804
 
 ## v3.1.3-260801 (2026-08-01)
 
