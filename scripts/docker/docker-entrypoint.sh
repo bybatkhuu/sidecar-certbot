@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 
@@ -191,4 +191,4 @@ main()
 	exit 0
 }
 
-main "${@:-}"
+main "$@"
