@@ -194,7 +194,7 @@ You can use the following environment variables to configure:
 CERTBOT_EMAIL=user@email.com
 
 ## Domain names to obtain certificates:
-CERTBOT_DOMAINS="example.com,www.example.com"
+CERTBOT_DOMAINS="example.com,*.example.com"
 
 ## DNS propagation timeout (in seconds):
 CERTBOT_DNS_TIMEOUT=30

@@ -15,7 +15,7 @@ services:
         required: false
     volumes:
       - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
-      - "./volumes/storage/certbot/ssl:/etc/letsencrypt"
+      - "./volumes/secrets/certbot/ssl:/etc/letsencrypt"
     network_mode: host
     command: ["--renew=standalone"]
     tty: true
