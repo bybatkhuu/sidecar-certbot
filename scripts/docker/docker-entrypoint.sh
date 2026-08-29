@@ -149,10 +149,10 @@ main()
 				shift
 				if [ -z "${*:-}" ]; then
 					echo "[INFO]: Starting bash..."
-					/bin/bash
+					exec /bin/bash
 				else
 					echo "[INFO]: Executing command -> ${*}"
-					exec /bin/bash -c "${@}" || exit 2
+					exec /bin/bash -c "${*}"
 				fi
 				exit 0;;
 			*)
@@ -171,21 +171,42 @@ main()
 	echo "[INFO]: Certbot email -> '${CERTBOT_EMAIL}'"
 	echo "[INFO]: Certbot server -> '${_certbot_staging:-production}'"
 	# shellcheck disable=SC2086
-	certbot certonly -n --agree-tos --keep --expand --max-log-backups 10 --deploy-hook "/usr/local/bin/certbot-deploy-hook.sh" ${_certbot_staging} ${_certbot_new} -m "${CERTBOT_EMAIL}" -d "${CERTBOT_DOMAINS}" || exit 2
+	certbot certonly -n \
+		--agree-tos \
+		--keep \
+		--expand \
+		--max-log-backups 10 \
+		--deploy-hook "/usr/local/bin/certbot-deploy-hook.sh" \
+		${_certbot_staging} \
+		${_certbot_new} \
+		-m "${CERTBOT_EMAIL}" \
+		-d "${CERTBOT_DOMAINS}" || exit 2
+
 	echo -e "[OK]: Done.\n"
 
 	/usr/local/bin/certbot-permissions.sh
 
 	if [ ${_disable_renew} != true ]; then
-		echo "[INFO]: Adding cron jobs..."
-		echo -e "\n0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --root-user-action ignore --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
-		echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
-		echo -e "[OK]: Done.\n"
+		if ! grep -qF '# cron: pip-upgrade-certbot' /etc/crontab; then
+			echo "[INFO]: Adding 'pip-upgrade-certbot' cron job..."
+			echo -e "\n# cron: pip-upgrade-certbot" >> /etc/crontab || exit 2
+			echo "0 1 1 * * root /usr/local/bin/pip install --timeout 60 --no-cache-dir --root-user-action ignore --upgrade certbot ${_pip_dns} >> /var/log/cron.pip.log 2>&1" >> /etc/crontab || exit 2
+			echo -e "[OK]: Done.\n"
+		fi
+
+		if ! grep -qF '# cron: certbot-renew' /etc/crontab; then
+			echo "[INFO]: Adding 'certbot-renew' cron job..."
+			echo -e "\n# cron: certbot-renew" >> /etc/crontab || exit 2
+			echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
+			echo -e "[OK]: Done.\n"
+		fi
+
+		if [ "$(tail -c 1 /etc/crontab | wc -l)" -eq 0 ]; then
+			echo "" >> /etc/crontab
+		fi
 
 		echo "[INFO]: Starting cron..."
-		exec tini -- cron -f || exit 2
-
-		# exec /bin/bash
+		exec tini -- cron -f
 	fi
 
 	exit 0

@@ -1,25 +1,27 @@
-services:
-  certbot:
-    image: bybatkhuu/certbot:3.1.4-260804
-    # volumes:
-    #   - "./volumes/secrets/certbot/credentials:/root/.secrets/certbot"
-    #   - "./volumes/secrets/certbot/credentials/.aws:/root/.aws"
-    #   - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
-    # deploy:
-    #   replicas: 0
-    #   resources:
-    #     limits:
-    #       cpus: "0.5"
-    #       memory: 256M
-    # network_mode: bridge
-    # ports:
-    #   - "${CERTBOT_PORT:-80}:80"
-    # command: ["--server=production", "--new=webroot"]
-    # command: ["--server=production", "--renew=standalone"]
-    # command: ["--server=production", "--disable-renew"]
-    # command: ["--server=production", "--dns=cloudflare"]
-    # command: ["--server=production", "--dns=digitalocean"]
-    # command: ["--server=production", "--dns=route53"]
-    # command: ["--server=production", "--dns=google"]
-    # command: ["--server=production", "--dns=godaddy"]
-    # command: ["/bin/bash"]
+# services:
+#   certbot:
+#     volumes:
+#       - "./volumes/secrets/certbot/credentials:/root/.secrets/certbot"
+#       - "./volumes/secrets/certbot/credentials/.aws:/root/.aws"
+#       - "./volumes/storage/certbot/logs:/var/log/letsencrypt"
+#     network_mode: bridge
+#     ports:
+#       - "${CERTBOT_PORT:-80}:80"
+#     command: ["--server=production", "--new=webroot"]
+#     command: ["--server=production", "--renew=standalone"]
+#     command: ["--server=production", "--disable-renew"]
+#     command: ["--server=production", "--dns=cloudflare"]
+#     command: ["--server=production", "--dns=digitalocean"]
+#     command: ["--server=production", "--dns=route53"]
+#     command: ["--server=production", "--dns=google"]
+#     command: ["--server=production", "--dns=godaddy"]
+#     command: ["/bin/bash"]
+#     deploy:
+#       replicas: 1
+#       resources:
+#         limits:
+#           cpus: "0.5"
+#           memory: 256M
+#         reservations:
+#           cpus: "0.1"
+#           memory: 64M
