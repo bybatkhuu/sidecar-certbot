@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.1.5-260829 (2026-08-29)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.5-260829 -->
+
+## What's Changed
+### 🔨 Scripts
+* Update Certbot image version and enhance environment variable handling by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/79
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.4-260804...v3.1.5-260829
+
 ## v3.1.4-260804 (2026-08-04)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.4-260804 -->
