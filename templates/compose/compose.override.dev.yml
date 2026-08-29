@@ -1,6 +1,9 @@
 services:
   certbot:
     image: bybatkhuu/certbot:latest
+    # env_file:
+    #   - path: .env
+    #     required: false
     volumes:
       # - "./volumes/secrets/certbot/credentials:/root/.secrets/certbot"
       # - "./volumes/secrets/certbot/credentials/.aws:/root/.aws"
