@@ -1,6 +1,6 @@
 services:
   certbot:
-    image: bybatkhuu/certbot:3.1.4-260804
+    image: bybatkhuu/certbot:3.1.5-260829
     build:
       context: .
     restart: always
