@@ -196,7 +196,7 @@ main()
 
 		if ! grep -qF '# cron: certbot-renew' /etc/crontab; then
 			echo "[INFO]: Adding 'certbot-renew' cron job..."
-			echo "# cron: certbot-renew" >> /etc/crontab || exit 2
+			echo -e "\n# cron: certbot-renew" >> /etc/crontab || exit 2
 			echo "0 2 * * 1 root /usr/local/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot renew -n --keep --max-log-backups 10 --deploy-hook '/usr/local/bin/certbot-deploy-hook.sh' ${_certbot_staging} ${_certbot_renew} >> /var/log/cron.certbot.log 2>&1 && /usr/local/bin/certbot-permissions.sh" >> /etc/crontab || exit 2
 			echo -e "[OK]: Done.\n"
 		fi
