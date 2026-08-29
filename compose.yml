@@ -1,18 +1,15 @@
 services:
   certbot:
-    image: bybatkhuu/certbot:latest
+    image: bybatkhuu/certbot:3.1.4-260804
     build:
       context: .
     restart: always
     environment:
       - TERM=${TERM:-xterm}
       - TZ=${TZ:-UTC}
-      - CERTBOT_EMAIL=${CERTBOT_EMAIL}
-      - CERTBOT_DOMAINS=${CERTBOT_DOMAINS}
+      - CERTBOT_EMAIL=${CERTBOT_EMAIL:?}
+      - CERTBOT_DOMAINS=${CERTBOT_DOMAINS:?}
       - CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
-    env_file:
-      - path: .env
-        required: false
     volumes:
       - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
       - "./volumes/secrets/certbot/ssl:/etc/letsencrypt"
