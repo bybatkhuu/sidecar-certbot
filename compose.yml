@@ -5,11 +5,11 @@ services:
       context: .
     restart: always
     environment:
-      - TERM=${TERM:-xterm}
-      - TZ=${TZ:-UTC}
-      - CERTBOT_EMAIL=${CERTBOT_EMAIL:?}
-      - CERTBOT_DOMAINS=${CERTBOT_DOMAINS:?}
-      - CERTBOT_DNS_TIMEOUT=${CERTBOT_DNS_TIMEOUT:-30}
+      TERM: ${TERM:-xterm}
+      TZ: ${TZ:-UTC}
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL:?}
+      CERTBOT_DOMAINS: "${CERTBOT_DOMAINS:?}"
+      CERTBOT_DNS_TIMEOUT: ${CERTBOT_DNS_TIMEOUT:-30}
     volumes:
       - "./volumes/storage/certbot/www/.well-known/acme-challenge:/var/www/.well-known/acme-challenge"
       - "./volumes/secrets/certbot/ssl:/etc/letsencrypt"
