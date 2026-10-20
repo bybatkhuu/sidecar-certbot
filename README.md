@@ -65,33 +65,19 @@ For **DEVELOPMENT**:
 
 ### 2. 📥 Download or clone the repository
 
-**2.1.** Prepare projects directory (if not exists) in your **server** with **public IP address**:
-
 ```sh
-# Create projects directory:
 mkdir -pv ~/workspaces/projects
-
-# Enter into projects directory:
 cd ~/workspaces/projects
+
+# HTTPS:
+git clone https://github.com/bybatkhuu/sidecar-certbot.git
+# Or SSH (development):
+git clone git@github.com:bybatkhuu/sidecar-certbot.git
+
+cd sidecar-certbot
 ```
 
-**2.2.** Follow one of the below options **[A]**, **[B]** or **[C]**:
-
-**A.** Clone the repository:
-
-```sh
-git clone https://github.com/bybatkhuu/sidecar-certbot.git && \
-    cd sidecar-certbot
-```
-
-**OPTION B.** Clone the repository (for **DEVELOPMENT**: git + ssh key):
-
-```sh
-git clone git@github.com:bybatkhuu/sidecar-certbot.git && \
-    cd sidecar-certbot
-```
-
-**OPTION C.** Download source code from **[releases](https://github.com/bybatkhuu/sidecar-certbot/releases)** page.
+Alternatively, download the source from the [**releases**](https://github.com/bybatkhuu/sidecar-certbot/releases) page and extract it into your projects directory.
 
 ### 3. 🛠 Configure the environment
 
