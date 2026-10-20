@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.1.6-261020 (2026-10-20)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.1.6-261020 -->
+
+## What's Changed
+### 🧹 Chores
+* docker: update base image to python:3.14.8-slim-trixie in Dockerfile by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/80
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.5-260829...v3.1.6-261020
+
 ## v3.1.5-260829 (2026-08-29)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.5-260829 -->
