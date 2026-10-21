@@ -71,4 +71,7 @@ COPY --chown=root:root --chmod=770 ./scripts/docker/*.sh /usr/local/bin/
 
 VOLUME ["/etc/letsencrypt"]
 
+HEALTHCHECK --start-period=30s --start-interval=1s --interval=5m --timeout=5s --retries=5 \
+	CMD pgrep -x cron || exit 1
+
 ENTRYPOINT ["docker-entrypoint.sh"]
