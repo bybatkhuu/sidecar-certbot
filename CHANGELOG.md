@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.2.0-261021 (2026-10-21)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.2.0-261021 -->
+
+## What's Changed
+### ✨ Features
+* feat: added healthcheck in Dockerfile by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/81
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.1.6-261020...v3.2.0-261021
+
 ## v3.1.6-261020 (2026-10-20)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.1.6-261020 -->
