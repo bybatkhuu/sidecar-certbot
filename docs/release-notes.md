@@ -6,6 +6,19 @@ hide:
 
 # 📌 Release Notes
 
+## v3.2.1-261121 (2026-11-21)
+
+<!-- Release notes generated using configuration in .github/release.yml at v3.2.1-261121 -->
+
+## What's Changed
+### ✨ Features
+* chore(deps): bump https://github.com/igorshubovych/markdownlint-cli from v0.49.1 to 0.50.0 by @dependabot[bot] in https://github.com/bybatkhuu/sidecar-certbot/pull/82
+### 👷 CI/CD
+* Bump markdownlint-cli to version 0.50.0 and streamline CI workflow by @bybatkhuu in https://github.com/bybatkhuu/sidecar-certbot/pull/83
+
+
+**Full Changelog**: https://github.com/bybatkhuu/sidecar-certbot/compare/v3.2.0-261021...v3.2.1-261121
+
 ## v3.2.0-261021 (2026-10-21)
 
 <!-- Release notes generated using configuration in .github/release.yml at v3.2.0-261021 -->
